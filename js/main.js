@@ -107,7 +107,13 @@ function renderCharts() {
   });
 }
 
-function renderHeat() {
+// Rebuilding 224 cells on every slider tick is wasted DOM churn — the table
+// only depends on the advanced settings and the selected-cell highlight.
+let heatSig = '';
+function renderHeat(force = false) {
+  const sig = `${matrixKey}|${state.v0}|${state.rPct}|${state.monthly === 0}`;
+  if (!force && sig === heatSig) return;
+  heatSig = sig;
   renderHeatTable(document.getElementById('heatWrap'), {
     matrix,
     state,
@@ -163,6 +169,7 @@ function onLanguageChange() {
   applyI18n();
   document.title = `${t('app.title')} — OKI`;
   relabelPresets();
+  renderHeat(true); // cell aria-labels and headers are locale-dependent
   renderAll();
 }
 

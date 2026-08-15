@@ -207,16 +207,13 @@ export function renderChart(fig, cfg) {
     x: M.l, y: M.t, width: iw, height: ih, fill: 'transparent',
   }, svg);
   overlay.style.touchAction = 'pan-y';
-  overlay.addEventListener('pointermove', (ev) => {
+  const showAtPointer = (ev) => {
     const rect = svg.getBoundingClientRect();
     const frac = (ev.clientX - rect.left) / rect.width;
     show(Math.round(((frac * W) - M.l) / iw * xMax));
-  });
-  overlay.addEventListener('pointerdown', (ev) => {
-    const rect = svg.getBoundingClientRect();
-    const frac = (ev.clientX - rect.left) / rect.width;
-    show(Math.round(((frac * W) - M.l) / iw * xMax));
-  });
+  };
+  overlay.addEventListener('pointermove', showAtPointer);
+  overlay.addEventListener('pointerdown', showAtPointer);
   svg.addEventListener('pointerleave', hide);
 
   fig.onkeydown = (ev) => {

@@ -26,7 +26,7 @@ export default {
   'controls.feeHint': 'Ustawowo: 19% stopy referencyjnej NBP z 31 października poprzedniego roku, min. 0,1%.',
   'controls.nbp': 'Presety wg stopy NBP',
   'controls.nbpPreset': 'NBP {rate}%',
-  'controls.use2027': 'Pierwszy rok (2027) po przejściowej stawce 0,85%',
+  'controls.use2027': 'Pierwszy rok (2027) z przejściową stawką 0,85%',
   'controls.limit': 'Limit zwolnienia',
   'controls.limitHint': 'Aktywa do tej średniej rocznej wartości są zwolnione z opłaty OKI.',
   'controls.inflation': 'Inflacja (waloryzacja limitu od 2030 r.)',
