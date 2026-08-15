@@ -58,9 +58,7 @@ with synthetic `PointerEvent`s dispatched in page context.
 GitHub Pages, "Deploy from a branch" → `main` / root, repo
 `sobolevbel/okicalc` (personal account; `gh auth switch --user sobolevbel`
 before pushing). All paths are relative (site lives under `/okicalc/`).
-`.github/workflows/test.yml` exists locally but is gitignored — the gh token
-lacks `workflow` scope; after `gh auth refresh -h github.com -s workflow`,
-drop the ignore lines and commit it.
+CI: `.github/workflows/test.yml` runs `node --test` on push/PR.
 
 Google Analytics: `window.GA_MEASUREMENT_ID` in `index.html` (empty = off).
 

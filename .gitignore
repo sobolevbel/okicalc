@@ -1,6 +1,2 @@
 .DS_Store
 node_modules/
-
-# CI workflow lives locally; push requires gh token with workflow scope
-# (run: gh auth refresh -h github.com -s workflow, then remove these lines)
-.github/workflows/
