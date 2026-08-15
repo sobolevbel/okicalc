@@ -42,8 +42,9 @@ checklist for auditing them against reality and updating the code safely.
 
 ## 3. Update rules
 
-- **Never edit `oki-vs-belka-model.md`** — it is the frozen reference the
-  golden tests are pinned to.
+- The frozen reference `oki-vs-belka-model.md` was removed from the working
+  tree; read it from history (`git show 7e7066a:oki-vs-belka-model.md`) and
+  never re-add or alter it — the golden tests are pinned to it.
 - **Never retune `tests/engine.test.js` golden values** to new rates: they
   encode the document's baseline (constant 0.85%, fixed 100k limit). They
   stay valid forever. Only add NEW tests for new statutory helpers (e.g. if

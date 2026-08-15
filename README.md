@@ -24,9 +24,11 @@ npm test        # node --test — golden values from oki-vs-belka-model.md
 ```
 
 `js/engine.js` mirrors the reference Python model in
-[`oki-vs-belka-model.md`](./oki-vs-belka-model.md) §7 operation-for-operation;
-`tests/engine.test.js` pins it to every published value from that document
-(the full §4 break-even table, §5 advantage curves, §6 sensitivity tables).
+[`oki-vs-belka-model.md`](https://github.com/sobolevbel/okicalc/blob/7e7066a2cbb1c4cb07b0ebc2226eb957f441b335/oki-vs-belka-model.md)
+§7 operation-for-operation (the document was removed from the working tree
+but stays pinned at that commit); `tests/engine.test.js` pins the engine to
+every published value from it (the full §4 break-even table, §5 advantage
+curves, §6 sensitivity tables).
 
 ## Google Analytics
 

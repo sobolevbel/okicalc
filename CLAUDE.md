@@ -22,7 +22,9 @@ with synthetic `PointerEvent`s dispatched in page context.
 ## Architecture
 
 - `js/engine.js` — pure math, DOM-free (imported by Node tests). Mirrors the
-  reference Python in `oki-vs-belka-model.md` §7 **operation for operation**.
+  reference Python in `oki-vs-belka-model.md` §7 **operation for operation**
+  (the doc was removed from the working tree; read it from git history:
+  `git show 7e7066a:oki-vs-belka-model.md`).
 - `js/state.js` — UI state, bounds, defaults, URL query codec (short keys,
   only non-default values serialized; language is NOT part of scenario URLs).
 - `js/i18n.js` + `js/locales/{pl,en,ru,be,uk}.js` — `en.js` is the canonical
