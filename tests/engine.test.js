@@ -1,18 +1,19 @@
-// Golden-value tests: every number below comes from oki-vs-belka-model.md
-// (verified against the reference Python implementation, §7).
+// Golden-value tests: every number below was precomputed with an
+// independent reference implementation of the same model and pins the
+// engine's exact arithmetic (break-even years are integer-precise).
 // Run with: node --test tests/
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { simulate, breakeven, feeRateFromNbp } from '../js/engine.js';
 
-// Baseline of the document's tables: lump sum, accumulating instrument,
-// constant 0.85% fee, fixed 100k limit, no contributions.
+// Golden baseline: lump sum, accumulating instrument, constant 0.85% fee,
+// fixed 100k limit, no contributions.
 const DOC = { f: 0.0085, f2027: 0.0085, L0: 100_000, idx: 0, idxFrom: 3, c: 0, y: 0, t: 0.19 };
 
 const okiFinal = (v0, r, n, extra = {}) => simulate({ ...DOC, v0, r, n, ...extra }).at(-1).oki;
 const regFinal = (v0, r, n, extra = {}) => simulate({ ...DOC, v0, r, n, ...extra }).at(-1).reg;
 
-// --- §4: full 16×14 breakeven table (50+ capped at horizon 50) ---
+// --- Full 16×14 breakeven table (50+ capped at horizon 50) ---
 const SUMS = [25_000, 50_000, 75_000, 100_000, 125_000, 150_000, 175_000, 200_000,
   250_000, 300_000, 400_000, 500_000, 750_000, 1_000_000, 1_500_000, 2_000_000];
 const RATES = [-0.01, 0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.12, 0.15];
@@ -35,15 +36,15 @@ const TABLE = [
   [0, 0, 0, 0, 0, 0, 7, 14, 17, 20, 22, 23, 24, 26],
 ];
 
-test('§4 breakeven table matches exactly (all 224 cells)', () => {
+test('breakeven table matches exactly (all 224 cells)', () => {
   SUMS.forEach((v0, i) => {
     const row = RATES.map((r) => breakeven({ ...DOC, v0, r }, 50));
     assert.deepEqual(row, TABLE[i], `row v0=${v0}`);
   });
 });
 
-// --- §5: advantage curves, 7% return. zł exact to ±1; % (of the regular
-// account's capital, the doc's denominator) to ±0.01.
+// --- Advantage curves, 7% return. zł exact to ±1; % (of the regular
+// account's capital) to ±0.01.
 const CURVES = {
   500_000: {
     1: [3104, 0.59], 5: [14702, 2.22], 10: [25248, 2.83], 15: [26479, 2.18],
@@ -55,7 +56,7 @@ const CURVES = {
   },
 };
 
-test('§5 advantage curves (zł and % of regular account)', () => {
+test('advantage curves (zł and % of regular account)', () => {
   for (const [v0, points] of Object.entries(CURVES)) {
     const rows = simulate({ ...DOC, v0: Number(v0), r: 0.07, n: 30 });
     for (const [year, [zl, pct]] of Object.entries(points)) {
@@ -66,8 +67,8 @@ test('§5 advantage curves (zł and % of regular account)', () => {
   }
 });
 
-// --- §3.2 closed form vs recursion ---
-test('§3.2 closed form matches recursion to 1e-12', () => {
+// --- Closed form vs recursion ---
+test('closed form matches recursion to 1e-12', () => {
   for (const [v0, r, n] of [[500_000, 0.07, 20], [2_000_000, 0.10, 35], [300_000, 0.03, 15]]) {
     const a = (1 + r) - 0.0085 * Math.pow(1 + r, 0.5);
     const b = 0.0085 * 100_000;
@@ -77,9 +78,9 @@ test('§3.2 closed form matches recursion to 1e-12', () => {
   }
 });
 
-// --- §6.1: fee-rate sensitivity for 1M zł. The doc's table uses f2027 = f
-// (no transitional first year) and a horizon beyond 50 years.
-test('§6.1 fee sensitivity, 1M zł, horizon 60', () => {
+// --- Fee-rate sensitivity for 1M zł: f2027 = f (no transitional first
+// year), horizon beyond 50 years.
+test('fee sensitivity, 1M zł, horizon 60', () => {
   const expected = {
     0.0038: [50, 54, 57, 58],
     0.0057: [22, 29, 35, 38],
@@ -94,8 +95,8 @@ test('§6.1 fee sensitivity, 1M zł, horizon 60', () => {
   }
 });
 
-// --- §6.2: limit valorization, 500k, 2.5% inflation from year 4 ---
-test('§6.2 limit valorization', () => {
+// --- Limit valorization, 500k, 2.5% inflation from year 4 ---
+test('limit valorization', () => {
   const cases = [[0.05, 13, 14], [0.07, 21, 22], [0.10, 25, 25]];
   for (const [r, noVal, withVal] of cases) {
     assert.equal(breakeven({ ...DOC, v0: 500_000, r }, 50), noVal);
@@ -103,24 +104,24 @@ test('§6.2 limit valorization', () => {
   }
 });
 
-// --- §6.3: accumulation from zero, 50k/year contributions ---
-test('§6.3 regular contributions from zero', () => {
+// --- Accumulation from zero, 50k/year contributions ---
+test('regular contributions from zero', () => {
   const cases = [[0.05, 19], [0.07, 28], [0.10, 32]];
   for (const [r, want] of cases) {
     assert.equal(breakeven({ ...DOC, v0: 0, r, c: 50_000 }, 50), want);
   }
 });
 
-// --- §2: one-year cell of the static table (photo) ---
-test('§2 one-year difference, 125k @ 1%', () => {
+// --- One-year cell of the naive static comparison ---
+test('one-year difference, 125k @ 1%', () => {
   const rows = simulate({ ...DOC, v0: 125_000, r: 0.01, n: 1 });
-  // static table charges the fee on V0 above the limit, without intra-year
-  // growth; our model uses average value, so compare the direct formula
+  // the naive one-year comparison charges the fee on V0 above the limit,
+  // without intra-year growth; verify that simplified formula first
   const cell = 0.0085 * Math.max(125_000 - 100_000, 0) - 0.19 * 125_000 * 0.01;
   assert.equal(Math.round(cell), -25);
-  // The dynamic model legitimately disagrees with the static photo table here:
+  // The dynamic model legitimately disagrees with the naive comparison here:
   // Belka is only owed on exit, so OKI is actually ahead in year 1 (and stays
-  // ahead through year 5 — the §4 breakeven for this cell).
+  // ahead through year 5 — this cell's breakeven in the golden table).
   assert.ok(rows[0].adv > 0 && rows[0].adv < 60, `year-1 adv ${rows[0].adv}`);
   assert.equal(breakeven({ ...DOC, v0: 125_000, r: 0.01 }, 50), 5);
 });

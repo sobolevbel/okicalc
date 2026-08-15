@@ -1,9 +1,9 @@
 // Pure calculation engine. No DOM, importable from Node tests.
 //
-// Mirrors the reference Python model (oki-vs-belka-model.md §7) operation for
-// operation: JS and CPython use the same IEEE 754 doubles, so keeping the
-// arithmetic order identical makes results bit-comparable with the reference.
-// All values stay as raw floats; rounding happens only at render time.
+// The arithmetic order is load-bearing: the golden tests pin exact values
+// (integer-precise break-even years), so keep every operation in its
+// existing order. All values stay as raw floats; rounding happens only at
+// render time.
 
 export const DEFAULTS = Object.freeze({
   v0: 100_000, // initial lump sum, zł

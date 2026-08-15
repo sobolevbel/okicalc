@@ -42,11 +42,8 @@ checklist for auditing them against reality and updating the code safely.
 
 ## 3. Update rules
 
-- The frozen reference `oki-vs-belka-model.md` was removed from the working
-  tree; read it from history (`git show 7e7066a:oki-vs-belka-model.md`) and
-  never re-add or alter it — the golden tests are pinned to it.
 - **Never retune `tests/engine.test.js` golden values** to new rates: they
-  encode the document's baseline (constant 0.85%, fixed 100k limit). They
+  encode a frozen baseline (constant 0.85%, fixed 100k limit). They
   stay valid forever. Only add NEW tests for new statutory helpers (e.g. if
   the min/rounding rule in `feeRateFromNbp` changes, change that function
   and its test together, citing the amendment).
@@ -54,6 +51,8 @@ checklist for auditing them against reality and updating the code safely.
   `en.js` is the canonical key set; the others must mirror it exactly.
 - Update the disclaimer "as understood on" framing only if the law itself
   changed; note the amendment date in the commit message with source URLs.
+- Keep `MODEL.md` in sync: its §2 statutory table, §6 sensitivity table and
+  the fee-rate examples must reflect the same facts as the code.
 - After edits: `npm test` (must stay green) and a browser smoke pass
   (verdict renders, presets relabel, all 5 languages).
 

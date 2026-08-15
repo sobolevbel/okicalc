@@ -21,10 +21,9 @@ with synthetic `PointerEvent`s dispatched in page context.
 
 ## Architecture
 
-- `js/engine.js` — pure math, DOM-free (imported by Node tests). Mirrors the
-  reference Python in `oki-vs-belka-model.md` §7 **operation for operation**
-  (the doc was removed from the working tree; read it from git history:
-  `git show 7e7066a:oki-vs-belka-model.md`).
+- `js/engine.js` — pure math, DOM-free (imported by Node tests). Implements
+  the model specified in `MODEL.md` (read that first for the recursions,
+  assumptions and validation approach).
 - `js/state.js` — UI state, bounds, defaults, URL query codec (short keys,
   only non-default values serialized; language is NOT part of scenario URLs).
 - `js/i18n.js` + `js/locales/{pl,en,ru,be,uk}.js` — `en.js` is the canonical
@@ -40,16 +39,16 @@ with synthetic `PointerEvent`s dispatched in page context.
 
 ## Hard invariants — do not "improve"
 
-- Engine keeps the reference model's floating-point **operation order**
+- The engine's floating-point **operation order is load-bearing**
   (fee computed from pre-growth value, contribution added before growth,
   `(1+r)^0.5` mid-year average, limit exponent `max(0, k − idxFrom + 1)`).
+  Golden tests compare exact integers — do not reorder arithmetic.
 - `breakeven()` uses strict `>` and **stops at the first losing year** —
   scanning all 50 years breaks golden-table equality (e.g. 175k @ 2% = 2).
-- Golden tests in `tests/engine.test.js` pin the engine to the source
-  document's published tables (§4/§5/§6). They encode the DOCUMENT's frozen
-  assumptions (constant 0.85% fee, no valorization). Never retune them to
-  current law — current law only changes DEFAULTS/presets/locale copy
-  (see the `verify-rates` skill).
+- Golden tests in `tests/engine.test.js` pin the engine to a precomputed
+  dataset with frozen baseline assumptions (constant 0.85% fee, fixed 100k
+  limit, no valorization). Never retune them to current law — current law
+  only changes DEFAULTS/presets/locale copy (see the `verify-rates` skill).
 - Charts read colors from CSS classes/custom properties, so theme switches
   need no re-render. Keep it that way.
 - All dynamic text goes through `textContent` (never innerHTML).

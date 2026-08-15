@@ -20,15 +20,14 @@ with a **regular brokerage account** taxed under the Belka rules.
 
 ```bash
 npm run serve   # python3 http.server on :8321 (ES modules need http://)
-npm test        # node --test — golden values from oki-vs-belka-model.md
+npm test        # node --test — golden-value suite
 ```
 
-`js/engine.js` mirrors the reference Python model in
-[`oki-vs-belka-model.md`](https://github.com/sobolevbel/okicalc/blob/7e7066a2cbb1c4cb07b0ebc2226eb957f441b335/oki-vs-belka-model.md)
-§7 operation-for-operation (the document was removed from the working tree
-but stays pinned at that commit); `tests/engine.test.js` pins the engine to
-every published value from it (the full §4 break-even table, §5 advantage
-curves, §6 sensitivity tables).
+The financial model is specified in detail in [`MODEL.md`](./MODEL.md)
+(rules, recursions, closed form, assumptions and their bias, validation).
+`js/engine.js` implements it; `tests/engine.test.js` pins the engine to a
+precomputed golden dataset: a full 16×14 break-even table, advantage
+curves, sensitivity tables and an analytical closed-form cross-check.
 
 ## Google Analytics
 

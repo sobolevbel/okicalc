@@ -104,7 +104,7 @@ export default {
   'explain.col.belka': 'Belka if sold',
   'explain.col.diff': 'OKI advantage',
   'explain.formulasTitle': 'For the curious: exact formulas',
-  'explain.formulasNote': 'The model mirrors the reference implementation from the source document; all of its published values are covered by automated tests.',
+  'explain.formulasNote': 'The model is specified in the Model & methodology document; automated tests pin its exact values.',
 
   'assumptions.title': 'Model assumptions',
   'assumptions.i1': 'The OKI fee is deducted from the account’s assets (the law leaves open whether it could be paid from external funds, which would be better for OKI).',

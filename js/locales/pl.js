@@ -103,7 +103,7 @@ export default {
   'explain.col.belka': 'Belka przy sprzedaży',
   'explain.col.diff': 'Przewaga OKI',
   'explain.formulasTitle': 'Dla dociekliwych: dokładne wzory',
-  'explain.formulasNote': 'Model odwzorowuje implementację referencyjną z dokumentu źródłowego; wszystkie opublikowane w nim wartości są objęte testami automatycznymi.',
+  'explain.formulasNote': 'Model jest opisany w dokumencie „Model i metodologia”; testy automatyczne przypinają jego dokładne wartości.',
 
   'assumptions.title': 'Założenia modelu',
   'assumptions.i1': 'Opłata OKI jest potrącana z aktywów na koncie (ustawa nie przesądza, czy można ją płacić ze środków zewnętrznych, co byłoby korzystniejsze dla OKI).',
