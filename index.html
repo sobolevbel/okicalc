@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kalkulator OKI — OKI kontra zwykłe konto maklerskie</title>
+  <meta name="description" content="Interaktywny kalkulator: Osobiste Konto Inwestycyjne (OKI, od 2027) czy zwykłe konto maklerskie z podatkiem Belki? Symulacja rok po roku, próg opłacalności, wykresy. PL / EN / RU / BE / UK.">
+  <link rel="canonical" href="https://sobolevbel.github.io/okicalc/">
+  <link rel="alternate" hreflang="pl" href="https://sobolevbel.github.io/okicalc/?lang=pl">
+  <link rel="alternate" hreflang="en" href="https://sobolevbel.github.io/okicalc/?lang=en">
+  <link rel="alternate" hreflang="ru" href="https://sobolevbel.github.io/okicalc/?lang=ru">
+  <link rel="alternate" hreflang="be" href="https://sobolevbel.github.io/okicalc/?lang=be">
+  <link rel="alternate" hreflang="uk" href="https://sobolevbel.github.io/okicalc/?lang=uk">
+  <link rel="alternate" hreflang="x-default" href="https://sobolevbel.github.io/okicalc/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Kalkulator OKI — OKI kontra zwykłe konto maklerskie">
+  <meta property="og:description" content="Co zostawi Ci więcej pieniędzy: OKI czy zwykłe konto z podatkiem Belki? Symulacja rok po roku, próg opłacalności, wykresy.">
+  <meta property="og:url" content="https://sobolevbel.github.io/okicalc/">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:image" content="https://sobolevbel.github.io/okicalc/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f9f9f7">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0d0d0d">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232a78d6'/%3E%3Cpath d='M6 22 L13 14 L18 18 L26 8' stroke='%23ffffff' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./css/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Kalkulator OKI",
+    "url": "https://sobolevbel.github.io/okicalc/",
+    "description": "Interaktywny kalkulator porównujący Osobiste Konto Inwestycyjne (OKI) ze zwykłym kontem maklerskim opodatkowanym podatkiem Belki.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "inLanguage": ["pl", "en", "ru", "be", "uk"],
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "PLN" }
+  }
+  </script>
+  <script>
+    // Google Analytics 4 — set your Measurement ID to enable (see README).
+    window.GA_MEASUREMENT_ID = '';
+    if (window.GA_MEASUREMENT_ID) {
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.GA_MEASUREMENT_ID;
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { dataLayer.push(arguments); };
+      gtag('js', new Date());
+      gtag('config', window.GA_MEASUREMENT_ID, { anonymize_ip: true });
+    }
+  </script>
+  <script type="module" src="./js/main.js"></script>
+</head>
+<body>
+
+<header class="site-header wrap">
+  <div class="head-row">
+    <div class="brand">
+      <h1 data-i18n="app.title">OKI kontra zwykłe konto maklerskie</h1>
+    </div>
+    <div class="site-tools no-print">
+      <label class="visually-hidden" for="selLang" data-i18n="lang.label" hidden>Język</label>
+      <select id="selLang" data-i18n-aria="lang.label" aria-label="Język"></select>
+      <div class="theme-seg" role="group" id="themeSeg" data-i18n-aria="theme.label" aria-label="Motyw kolorystyczny">
+        <button type="button" data-theme-val="auto" data-i18n="theme.auto" aria-pressed="true">Auto</button>
+        <button type="button" data-theme-val="light" data-i18n="theme.light" aria-pressed="false">Jasny</button>
+        <button type="button" data-theme-val="dark" data-i18n="theme.dark" aria-pressed="false">Ciemny</button>
+      </div>
+    </div>
+  </div>
+  <p class="tagline" data-i18n="app.tagline">Co zostawi Ci więcej pieniędzy: nowe Osobiste Konto Inwestycyjne (OKI, od 2027 r.) czy zwykłe konto maklerskie z 19-procentowym podatkiem Belki? Wszystko liczy się w Twojej przeglądarce.</p>
+  <noscript><p><strong>Ten kalkulator wymaga włączonego JavaScriptu.</strong></p></noscript>
+</header>
+
+<main class="wrap">
+
+  <!-- ==================== Controls ==================== -->
+  <section id="controls" class="card no-print" aria-labelledby="hControls">
+    <h2 id="hControls" data-i18n="controls.title">Twój scenariusz</h2>
+    <div class="fields">
+      <div class="field">
+        <div class="field-head">
+          <label for="in-v0" data-i18n="controls.initial">Kwota początkowa</label>
+          <output id="out-v0" for="in-v0"></output>
+        </div>
+        <div class="field-row">
+          <input type="range" id="in-v0" min="0" max="2000000" step="5000" value="100000">
+          <input type="number" id="num-v0" min="0" max="10000000" step="5000" value="100000" data-i18n-aria="controls.initial" aria-label="Kwota początkowa">
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <label for="in-monthly" data-i18n="controls.monthly">Miesięczna wpłata</label>
+          <output id="out-monthly" for="in-monthly"></output>
+        </div>
+        <div class="field-row">
+          <input type="range" id="in-monthly" min="0" max="10000" step="100" value="1000">
+          <input type="number" id="num-monthly" min="0" max="20000" step="100" value="1000" data-i18n-aria="controls.monthly" aria-label="Miesięczna wpłata">
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <label for="in-rPct" data-i18n="controls.return">Oczekiwana roczna stopa zwrotu</label>
+          <output id="out-rPct" for="in-rPct"></output>
+        </div>
+        <div class="field-row">
+          <input type="range" id="in-rPct" min="-5" max="15" step="0.5" value="7">
+          <input type="number" id="num-rPct" min="-5" max="15" step="0.5" value="7" data-i18n-aria="controls.return" aria-label="Oczekiwana roczna stopa zwrotu">
+        </div>
+        <p class="hint" data-i18n="controls.returnHint">Nominalnie, przed podatkami. Globalny rynek akcji długoterminowo ≈ 7%.</p>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <label for="in-horizon" data-i18n="controls.horizon">Horyzont inwestycyjny</label>
+          <output id="out-horizon" for="in-horizon"></output>
+        </div>
+        <div class="field-row">
+          <input type="range" id="in-horizon" min="1" max="50" step="1" value="20">
+          <input type="number" id="num-horizon" min="1" max="50" step="1" value="20" data-i18n-aria="controls.horizon" aria-label="Horyzont inwestycyjny">
+        </div>
+      </div>
+    </div>
+
+    <details class="advanced">
+      <summary data-i18n="controls.advanced">Ustawienia zaawansowane</summary>
+      <div class="fields">
+        <div class="field">
+          <div class="field-head">
+            <label for="in-feePct" data-i18n="controls.fee">Stawka opłaty OKI od 2028 r.</label>
+            <output id="out-feePct" for="in-feePct"></output>
+          </div>
+          <div class="field-row">
+            <input type="range" id="in-feePct" min="0.1" max="1.5" step="0.01" value="0.71">
+            <input type="number" id="num-feePct" min="0.1" max="1.5" step="0.01" value="0.71" data-i18n-aria="controls.fee" aria-label="Stawka opłaty OKI od 2028 r.">
+          </div>
+          <p class="hint" data-i18n="controls.feeHint">Ustawowo: 19% stopy referencyjnej NBP z 31 października poprzedniego roku, min. 0,1%.</p>
+          <div class="presets" id="nbpPresets" role="group" data-i18n-aria="controls.nbp" aria-label="Presety wg stopy NBP">
+            <p class="preset-label" data-i18n="controls.nbp">Presety wg stopy NBP</p>
+          </div>
+          <div class="check-row" style="margin-top:12px">
+            <input type="checkbox" id="chk2027" checked>
+            <label for="chk2027" data-i18n="controls.use2027">Pierwszy rok (2027) po przejściowej stawce 0,85%</label>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-head">
+            <label for="in-limit" data-i18n="controls.limit">Limit zwolnienia</label>
+            <output id="out-limit" for="in-limit"></output>
+          </div>
+          <div class="field-row">
+            <input type="range" id="in-limit" min="0" max="500000" step="10000" value="100000">
+            <input type="number" id="num-limit" min="0" max="1000000" step="10000" value="100000" data-i18n-aria="controls.limit" aria-label="Limit zwolnienia">
+          </div>
+          <p class="hint" data-i18n="controls.limitHint">Aktywa do tej średniej rocznej wartości są zwolnione z opłaty OKI.</p>
+        </div>
+        <div class="field">
+          <div class="field-head">
+            <label for="in-inflPct" data-i18n="controls.inflation">Inflacja (waloryzacja limitu od 2030 r.)</label>
+            <output id="out-inflPct" for="in-inflPct"></output>
+          </div>
+          <div class="field-row">
+            <input type="range" id="in-inflPct" min="0" max="8" step="0.1" value="2.5">
+            <input type="number" id="num-inflPct" min="0" max="8" step="0.1" value="2.5" data-i18n-aria="controls.inflation" aria-label="Inflacja (waloryzacja limitu od 2030 r.)">
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-head">
+            <label for="in-divPct" data-i18n="controls.dividend">Stopa dywidendy</label>
+            <output id="out-divPct" for="in-divPct"></output>
+          </div>
+          <div class="field-row">
+            <input type="range" id="in-divPct" min="0" max="5" step="0.1" value="0">
+            <input type="number" id="num-divPct" min="0" max="5" step="0.1" value="0" data-i18n-aria="controls.dividend" aria-label="Stopa dywidendy">
+          </div>
+          <p class="hint" data-i18n="controls.dividendHint">Wypłaty gotówkowe jako część zwrotu. 0% = fundusz akumulujący.</p>
+        </div>
+        <div class="field">
+          <div class="field-head">
+            <label for="in-belkaPct" data-i18n="controls.belka">Stawka podatku Belki</label>
+            <output id="out-belkaPct" for="in-belkaPct"></output>
+          </div>
+          <div class="field-row">
+            <input type="range" id="in-belkaPct" min="0" max="40" step="0.5" value="19">
+            <input type="number" id="num-belkaPct" min="0" max="40" step="0.5" value="19" data-i18n-aria="controls.belka" aria-label="Stawka podatku Belki">
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <div class="actions">
+      <button type="button" id="btnPdf" class="primary" data-i18n="controls.pdf">Pobierz raport PDF</button>
+      <button type="button" id="btnShare" data-i18n="controls.share">Skopiuj link do scenariusza</button>
+      <button type="button" id="btnReset" data-i18n="controls.reset">Przywróć domyślne</button>
+      <span class="toast-inline" id="shareToast" role="status" aria-live="polite"></span>
+    </div>
+  </section>
+
+  <!-- ==================== Verdict ==================== -->
+  <section class="card verdict" aria-labelledby="verdictMain">
+    <p class="verdict-after" id="verdictAfter"></p>
+    <p class="verdict-main" id="verdictMain" aria-live="polite"></p>
+    <p class="verdict-detail" id="verdictDetail"></p>
+    <p class="verdict-be" id="verdictBe"></p>
+
+    <div class="print-only print-params">
+      <h3 data-i18n="print.params">Parametry scenariusza</h3>
+      <dl id="printParams"></dl>
+    </div>
+  </section>
+
+  <!-- ==================== Stat tiles ==================== -->
+  <section class="card" aria-labelledby="statsHeading">
+    <h2 id="statsHeading"></h2>
+    <div class="stats-grid">
+      <div class="stat"><p class="stat-label" data-i18n="stats.oki">Wartość końcowa OKI</p><p class="stat-value"><span class="key-dot oki" aria-hidden="true"></span><span id="stOki"></span></p></div>
+      <div class="stat"><p class="stat-label" data-i18n="stats.reg">Zwykłe konto (po podatku)</p><p class="stat-value"><span class="key-dot reg" aria-hidden="true"></span><span id="stReg"></span></p></div>
+      <div class="stat"><p class="stat-label" data-i18n="stats.diff">Różnica</p><p class="stat-value" id="stDiff"></p></div>
+      <div class="stat"><p class="stat-label" data-i18n="stats.fees">Suma opłat OKI</p><p class="stat-value" id="stFees"></p></div>
+      <div class="stat"><p class="stat-label" data-i18n="stats.belka">Podatek Belki przy sprzedaży</p><p class="stat-value" id="stBelka"></p></div>
+      <div class="stat"><p class="stat-label" data-i18n="stats.breakeven">OKI na plusie do</p><p class="stat-value" id="stBreakeven"></p></div>
+      <div class="stat"><p class="stat-label" data-i18n="stats.maxAdv">Szczyt przewagi</p><p class="stat-value" id="stMaxAdv"></p></div>
+    </div>
+  </section>
+
+  <!-- ==================== Charts ==================== -->
+  <section class="card" aria-labelledby="hGrowth">
+    <h2 id="hGrowth" data-i18n="chart.growth.title">Kapitał w czasie</h2>
+    <p class="card-sub" data-i18n="chart.growth.subtitle">Ile zostałoby Ci po sprzedaży i rozliczeniu podatków w danym roku</p>
+    <ul class="chart-legend">
+      <li><span class="legend-key oki" aria-hidden="true"></span><span data-i18n="chart.series.oki">OKI</span></li>
+      <li><span class="legend-key reg" aria-hidden="true"></span><span data-i18n="chart.series.reg">Zwykłe konto</span></li>
+    </ul>
+    <figure class="chart-figure" id="figGrowth" tabindex="0" role="img">
+      <div class="chart-tooltip" hidden></div>
+    </figure>
+    <p class="chart-hint no-print" data-i18n="chart.hint">Najedź na wykres lub ustaw na nim fokus i użyj klawiszy ←/→, aby przeglądać lata.</p>
+  </section>
+
+  <section class="card" aria-labelledby="hAdv">
+    <h2 id="hAdv" data-i18n="chart.adv.title">Przewaga OKI rok po roku</h2>
+    <p class="card-sub" data-i18n="chart.adv.subtitle">O ile więcej (lub mniej) zostawia Ci OKI wobec zwykłego konta</p>
+    <figure class="chart-figure" id="figAdv" tabindex="0" role="img">
+      <div class="chart-tooltip" hidden></div>
+    </figure>
+    <p class="chart-hint no-print" data-i18n="chart.a11yNote">Te same dane znajdziesz w tabeli rok po roku poniżej.</p>
+  </section>
+
+  <section class="card" aria-labelledby="hTaxes">
+    <h2 id="hTaxes" data-i18n="chart.taxes.title">Podatki i opłaty narastająco</h2>
+    <p class="card-sub" data-i18n="chart.taxes.subtitle">Wszystko, co każdą drogą trafia do fiskusa</p>
+    <ul class="chart-legend">
+      <li><span class="legend-key oki" aria-hidden="true"></span><span data-i18n="chart.series.fee">Opłaty OKI (narastająco)</span></li>
+      <li><span class="legend-key reg" aria-hidden="true"></span><span data-i18n="chart.series.belka">Podatek Belki (przy sprzedaży w danym roku)</span></li>
+    </ul>
+    <figure class="chart-figure" id="figTaxes" tabindex="0" role="img">
+      <div class="chart-tooltip" hidden></div>
+    </figure>
+  </section>
+
+  <!-- ==================== Break-even heatmap ==================== -->
+  <section class="card heatmap-section" aria-labelledby="hHeat">
+    <h2 id="hHeat" data-i18n="table.title">Jak długo OKI pozostaje na plusie?</h2>
+    <p class="card-sub" data-i18n="table.subtitle">Każda komórka pokazuje ostatni rok, w którym OKI jeszcze wygrywa dla danej kwoty i stopy zwrotu. 0 = przegrywa od pierwszego roku, 50+ = wygrywa ponad 50 lat. Kliknij komórkę, aby załadować ją jako swój scenariusz.</p>
+    <div class="heat-scroll" id="heatWrap"></div>
+    <div class="heat-legend">
+      <span data-i18n="table.legendLow">0 lat</span>
+      <span class="ramp" aria-hidden="true"></span>
+      <span data-i18n="table.legendHigh">50+</span>
+    </div>
+    <p class="hint" data-i18n="table.note">Tabela zakłada jednorazową wpłatę bez dopłat i dywidend; Twoje ustawienia zaawansowane (stawka, limit, waloryzacja, podatek Belki) są uwzględnione.</p>
+  </section>
+
+  <!-- ==================== How it's calculated ==================== -->
+  <section class="card" aria-labelledby="hExplain">
+    <h2 id="hExplain" data-i18n="explain.title">Skąd biorą się te liczby</h2>
+    <p id="exIntro"></p>
+    <div class="explain-cols">
+      <div class="explain-col">
+        <h3><span class="key-dot reg" aria-hidden="true"></span><span data-i18n="explain.regTitle">Zwykłe konto maklerskie</span></h3>
+        <p id="exReg"></p>
+      </div>
+      <div class="explain-col">
+        <h3><span class="key-dot oki" aria-hidden="true"></span><span data-i18n="explain.okiTitle">OKI</span></h3>
+        <p id="exOki"></p>
+      </div>
+    </div>
+    <p id="exRace"></p>
+    <h3 data-i18n="explain.stepsTitle">Co dzieje się w każdym symulowanym roku</h3>
+    <ol class="steps">
+      <li id="exStep1"></li>
+      <li id="exStep2"></li>
+      <li id="exStep3"></li>
+      <li id="exStep4"></li>
+    </ol>
+
+    <details class="sub" id="detYbreak">
+      <summary data-i18n="explain.tableTitle">Rozbicie rok po roku</summary>
+      <div class="ybreak-scroll">
+        <table class="ybreak">
+          <thead>
+            <tr>
+              <th scope="col" data-i18n="explain.col.year">Rok</th>
+              <th scope="col" data-i18n="explain.col.okiFee">Opłata OKI w danym roku</th>
+              <th scope="col" data-i18n="explain.col.oki">Wartość OKI</th>
+              <th scope="col" data-i18n="explain.col.belka">Belka przy sprzedaży</th>
+              <th scope="col" data-i18n="explain.col.reg">Zwykłe (po podatku)</th>
+              <th scope="col" data-i18n="explain.col.diff">Przewaga OKI</th>
+            </tr>
+          </thead>
+          <tbody id="ybreakBody"></tbody>
+        </table>
+      </div>
+    </details>
+
+    <details class="sub no-print">
+      <summary data-i18n="explain.formulasTitle">Dla dociekliwych: dokładne wzory</summary>
+      <pre aria-label="Model"><code>OKI:      V ← (V + c)·(1+r) − f·max( (V + c)·(1+r)^0,5 − L , 0 )
+          L = limit · (1+inflacja)^max(0, rok−3)     [od 2030]
+          f = 0,85% w 2027; potem 19% stopy NBP (min 0,1%)
+
+Zwykłe:   V ← (V + c)·(1+r−y) + V·y·(1−t)
+          wynik = V − t·max(V − koszty, 0),  t = 19%</code></pre>
+      <p class="hint" data-i18n="explain.formulasNote">Model odwzorowuje implementację referencyjną z dokumentu źródłowego; wszystkie opublikowane w nim wartości są objęte testami automatycznymi.</p>
+    </details>
+  </section>
+
+  <!-- ==================== Assumptions / disclaimer ==================== -->
+  <section class="card assumptions" aria-labelledby="hAssum">
+    <h2 id="hAssum" data-i18n="assumptions.title">Założenia modelu</h2>
+    <ul>
+      <li data-i18n="assumptions.i1"></li>
+      <li data-i18n="assumptions.i2"></li>
+      <li data-i18n="assumptions.i3"></li>
+      <li data-i18n="assumptions.i4"></li>
+      <li data-i18n="assumptions.i5"></li>
+      <li data-i18n="assumptions.i6"></li>
+      <li data-i18n="assumptions.i7"></li>
+    </ul>
+    <p class="disclaimer" data-i18n="disclaimer.text"></p>
+    <p class="privacy" data-i18n="privacy.note"></p>
+    <p class="print-only print-meta"><span data-i18n="print.url">Wersja interaktywna:</span> https://sobolevbel.github.io/okicalc/</p>
+  </section>
+</main>
+
+<footer class="site-footer no-print">
+  <a href="https://github.com/sobolevbel/okicalc" rel="noopener"><span data-i18n="footer.source">Kod źródłowy</span></a>
+  ·
+  <a href="https://github.com/sobolevbel/okicalc/blob/main/oki-vs-belka-model.md" rel="noopener"><span data-i18n="footer.model">Model i metodologia</span></a>
+</footer>
+
+</body>
+</html>

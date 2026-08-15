@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://sobolevbel.github.io/okicalc/</loc>
+    <changefreq>monthly</changefreq>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://sobolevbel.github.io/okicalc/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sobolevbel.github.io/okicalc/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://sobolevbel.github.io/okicalc/?lang=ru"/>
+    <xhtml:link rel="alternate" hreflang="be" href="https://sobolevbel.github.io/okicalc/?lang=be"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://sobolevbel.github.io/okicalc/?lang=uk"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://sobolevbel.github.io/okicalc/"/>
+  </url>
+</urlset>
