@@ -1,0 +1,11 @@
+{
+  "name": "okicalc",
+  "version": "1.0.0",
+  "description": "OKI vs regular brokerage account calculator (Poland, 2027)",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/",
+    "serve": "python3 -m http.server 8321"
+  }
+}
