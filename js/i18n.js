@@ -97,6 +97,11 @@ export function fmtSignedMoney(v, maxFrac = 0) {
   return `${nf({ maximumFractionDigits: maxFrac, signDisplay: 'exceptZero' }).format(v)} zł`;
 }
 
+// Axis ticks: "1,2 mln" / "500K" — compact, locale-aware.
+export function fmtCompact(v) {
+  return nf({ notation: 'compact', maximumFractionDigits: 1 }).format(v);
+}
+
 export function fmtPct(v, maxFrac = 2) {
   return nf({ style: 'percent', maximumFractionDigits: maxFrac }).format(v / 100);
 }
