@@ -193,6 +193,56 @@ function initTheme() {
   });
 }
 
+/* ---------------- cookie consent + Google Analytics ---------------- */
+// GA loads ONLY after explicit consent; with no measurement ID neither the
+// banner nor GA ever appears. Choice is remembered on the device.
+function loadGa(id) {
+  const s = document.createElement('script');
+  s.async = true;
+  s.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(id)}`;
+  document.head.appendChild(s);
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function gtag() { window.dataLayer.push(arguments); };
+  window.gtag('js', new Date());
+  window.gtag('config', id, { anonymize_ip: true });
+}
+
+function initConsent() {
+  const id = window.GA_MEASUREMENT_ID;
+  if (!id) return;
+  let stored = null;
+  try { stored = localStorage.getItem('okicalc:consent'); } catch { /* ignore */ }
+  if (stored === 'granted') { loadGa(id); return; }
+  if (stored === 'denied') return;
+
+  const bar = document.createElement('div');
+  bar.className = 'consent-banner no-print';
+  bar.setAttribute('role', 'region');
+  bar.setAttribute('aria-label', 'Cookies');
+  const text = document.createElement('p');
+  text.dataset.i18n = 'consent.text';
+  const actions = document.createElement('div');
+  actions.className = 'consent-actions';
+  const choose = (value) => {
+    try { localStorage.setItem('okicalc:consent', value); } catch { /* ignore */ }
+    bar.remove();
+    if (value === 'granted') loadGa(id);
+  };
+  const accept = document.createElement('button');
+  accept.type = 'button';
+  accept.className = 'primary';
+  accept.dataset.i18n = 'consent.accept';
+  accept.addEventListener('click', () => choose('granted'));
+  const decline = document.createElement('button');
+  decline.type = 'button';
+  decline.dataset.i18n = 'consent.decline';
+  decline.addEventListener('click', () => choose('denied'));
+  actions.append(accept, decline);
+  bar.append(text, actions);
+  document.body.appendChild(bar);
+  applyI18n(bar); // banner survives language switches via data-i18n
+}
+
 /* ---------------- actions ---------------- */
 function initActions() {
   const toast = document.getElementById('shareToast');
@@ -225,6 +275,7 @@ initLanguage();
 initTheme();
 initControls(update);
 initActions();
+initConsent();
 applyI18n();
 document.title = `${t('app.title')} — OKI`;
 relabelPresets();

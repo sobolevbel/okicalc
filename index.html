@@ -40,17 +40,9 @@
   </script>
   <script>
     // Google Analytics 4 — set your Measurement ID to enable (see README).
-    window.GA_MEASUREMENT_ID = '';
-    if (window.GA_MEASUREMENT_ID) {
-      const s = document.createElement('script');
-      s.async = true;
-      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.GA_MEASUREMENT_ID;
-      document.head.appendChild(s);
-      window.dataLayer = window.dataLayer || [];
-      window.gtag = function () { dataLayer.push(arguments); };
-      gtag('js', new Date());
-      gtag('config', window.GA_MEASUREMENT_ID, { anonymize_ip: true });
-    }
+    // GA is loaded by js/main.js ONLY after the visitor accepts the cookie
+    // banner; with an empty ID neither the banner nor GA ever appears.
+    window.GA_MEASUREMENT_ID = window.GA_MEASUREMENT_ID || '';
   </script>
   <script type="module" src="./js/main.js"></script>
 </head>

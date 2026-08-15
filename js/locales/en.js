@@ -118,6 +118,9 @@ export default {
   'disclaimer.text': 'Calculations follow the act of 3 July 2026 (in force from 1 January 2027) as understood on the build date. This is not tax or investment advice; secondary regulations may change details — especially the definition of average asset value and the list of qualifying instruments.',
 
   'privacy.note': 'Everything you enter stays in your browser — calculations run locally and your inputs are never sent anywhere. Your device stores only the language and theme choice; the site collects anonymous visit statistics.',
+  'consent.text': 'We use cookies for anonymous visit statistics (Google Analytics). Analytics runs only with your consent — the calculations themselves never leave your browser.',
+  'consent.accept': 'Accept',
+  'consent.decline': 'Decline',
   'footer.model': 'Model & methodology',
   'footer.source': 'Source code',
 

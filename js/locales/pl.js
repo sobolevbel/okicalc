@@ -117,6 +117,9 @@ export default {
   'disclaimer.text': 'Obliczenia oparte na ustawie z 3 lipca 2026 r. (wchodzi w życie 1 stycznia 2027 r.) według stanu wiedzy na dzień budowy. To nie jest porada podatkowa ani inwestycyjna; akty wykonawcze mogą zmienić szczegóły — zwłaszcza definicję średniej wartości aktywów i listę kwalifikujących się instrumentów.',
 
   'privacy.note': 'Wszystko, co wpisujesz, zostaje w Twojej przeglądarce — obliczenia wykonują się lokalnie i nigdzie nie są wysyłane. Na Twoim urządzeniu zapisywany jest tylko wybór języka i motywu; strona zbiera wyłącznie anonimowe statystyki odwiedzin.',
+  'consent.text': 'Używamy plików cookie do anonimowych statystyk odwiedzin (Google Analytics). Analityka działa tylko za Twoją zgodą — same obliczenia nigdy nie opuszczają Twojej przeglądarki.',
+  'consent.accept': 'Zgadzam się',
+  'consent.decline': 'Odrzuć',
   'footer.model': 'Model i metodologia',
   'footer.source': 'Kod źródłowy',
 

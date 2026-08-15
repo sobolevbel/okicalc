@@ -36,7 +36,9 @@ Set your GA4 Measurement ID in `index.html`:
 window.GA_MEASUREMENT_ID = 'G-XXXXXXXXXX';
 ```
 
-With an empty ID nothing is loaded and no data is collected.
+With an empty ID nothing is loaded and no data is collected. With an ID set,
+a localized accept/decline cookie banner appears and GA loads only after the
+visitor accepts (GDPR/ePrivacy); the choice is remembered in localStorage.
 
 ## Deployment
 
