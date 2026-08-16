@@ -1,7 +1,7 @@
 // Verdict hero + stat tiles. All text set via textContent.
 import { t, tp, years, fmtMoney, fmtSignedMoney, fmtSignedPct } from '../i18n.js';
 
-export function renderSummary(state, { rows, breakevenYear, peak }) {
+export function renderSummary(state, { rows, hybrid, overflowYear, breakevenYear, peak }) {
   const at = rows[state.horizon - 1];
   const diff = at.adv;
 
@@ -37,6 +37,19 @@ export function renderSummary(state, { rows, breakevenYear, peak }) {
   if (breakevenYear === 0) be.textContent = t('verdict.beNever');
   else if (breakevenYear >= 50) be.textContent = t('verdict.beAlways');
   else be.textContent = t('verdict.beUntil', { years: years(breakevenYear) });
+
+  // Third strategy: shown only when it diverges from pure OKI (the portfolio
+  // outgrows the limit) AND the gap is at least 1 zł either way.
+  const hy = hybrid[state.horizon - 1].net;
+  const bestPure = Math.max(at.oki, at.reg);
+  const showHybrid = overflowYear !== null && Math.abs(hy - bestPure) >= 1;
+  const vh = document.getElementById('verdictHybrid');
+  vh.hidden = !showHybrid;
+  vh.textContent = !showHybrid ? '' : (hy > bestPure
+    ? t('verdict.hybridBest', { amount: fmtMoney(hy), diff: fmtMoney(hy - bestPure) })
+    : t('verdict.hybridBehind', { amount: fmtMoney(hy), diff: fmtMoney(bestPure - hy) }));
+  document.getElementById('stHybridWrap').hidden = !showHybrid;
+  document.getElementById('stHybrid').textContent = fmtMoney(hy);
 
   document.getElementById('statsHeading').textContent = t('stats.heading', { years: years(state.horizon) }) + badge;
   document.getElementById('stOki').textContent = fmtMoney(at.oki);

@@ -85,6 +85,64 @@ export function simulate(params) {
   return rows;
 }
 
+// Hybrid strategy: keep the OKI balance capped at the (valorized) exemption
+// limit; anything above it is withdrawn from OKI once a year (withdrawals
+// are tax-free) and continues on a regular account, where the transferred
+// cash becomes new cost basis. The first `L` of assets therefore compounds
+// free of both the fee and the Belka tax. Conventions mirror simulate():
+// contribution at the start of the year, skim right after it, fee from the
+// mid-year average (a small fee on intra-year growth above the limit
+// remains), taxed dividends on the regular part raise its basis.
+// Not always the best of the three: the overflow trades the OKI fee for
+// Belka on its gains, and after a crash the yearly skim re-bases the
+// transferred part at post-crash prices while the pure regular account is
+// still sheltered by its old basis.
+// When the portfolio never outgrows the limit the recursion degenerates to
+// the exact operations of simulate()'s OKI branch (bit-identical rows).
+export function simulateHybrid(params) {
+  const p = { ...DEFAULTS, ...params };
+  const { v0, r, n, f, f2027, L0, idx, idxFrom, c, y, t, crisisEvery, crisisDrop } = p;
+
+  let vOki = v0;
+  let vReg = 0;
+  let basis = 0;
+  let cumFee = 0;
+  let overflowYear = null; // first year any money left OKI (null = never)
+
+  const rows = [];
+  for (let k = 0; k < n; k++) {
+    const rk = crisisEvery > 0 && (k + 1) % crisisEvery === 0 ? -crisisDrop : r;
+    const L = L0 * Math.pow(1 + idx, Math.max(0, k - idxFrom + 1));
+    const fk = k === 0 ? f2027 : f;
+
+    vOki += c;
+    const overflow = Math.max(vOki - L, 0);
+    if (overflow > 0 && overflowYear === null) overflowYear = k + 1;
+    vOki -= overflow;
+    vReg += overflow;
+    basis += overflow;
+
+    const fee = fk * Math.max(vOki * Math.pow(1 + rk, 0.5) - L, 0);
+    vOki = vOki * (1 + rk) - fee;
+    cumFee += fee;
+
+    const div = vReg * y;
+    vReg = vReg * (1 + rk - y) + div * (1 - t);
+    basis += div * (1 - t);
+
+    const exitTax = Math.max(vReg - basis, 0) * t;
+    rows.push({
+      year: k + 1,
+      net: vOki + vReg - exitTax, // wealth if the regular part is sold now
+      okiPart: vOki,
+      regPart: vReg - exitTax,
+      fee,
+      cumFee,
+    });
+  }
+  return { rows, overflowYear };
+}
+
 // Last year in which OKI is still ahead; 0 = loses from year 1.
 // Mirrors the reference: strict '>' and stop at the first losing year
 // (the advantage curve can be non-monotonic near zero returns).

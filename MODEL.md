@@ -257,6 +257,55 @@ The break-even heatmap ignores the payout phase, just as it ignores
 contributions, dividends and crashes. With `w = 0` the payout code never
 runs — the accumulation model is untouched.
 
+### 4.6 Hybrid strategy (third line on the growth chart)
+
+The two "pure" strategies are both artificial extremes: the first `L(k)` of
+assets inside OKI is strictly free of *both* the fee (below the exemption
+limit) and the Belka tax, so a rational investor would always use OKI at
+least up to the limit. The hybrid strategy models exactly that: keep the OKI
+balance capped at the valorized limit and let everything above it work on a
+regular account.
+
+Per accumulation year `k` (same conventions as §4.1–4.2 — contribution at
+the start of the year, mid-year fee average, taxed dividends raise the
+regular part's basis):
+
+```
+V_oki ← V_oki + c(k)                    # contribution first
+skim  = max(V_oki − L(k), 0)            # once-a-year rebalance
+V_oki ← V_oki − skim                    # OKI withdrawal (tax-free)
+V_reg ← V_reg + skim;  B ← B + skim     # transferred cash = new cost basis
+
+fee(k) = f(k) · max(V_oki·(1+r(k))^0.5 − L(k), 0)   # only intra-year drift
+V_oki ← V_oki·(1+r(k)) − fee(k)                     # above L is charged
+V_reg, B ← regular-account growth-and-dividend step (§4.2)
+
+net(k) = V_oki + V_reg − t·max(V_reg − B, 0)
+```
+
+The hybrid's regular part starts at zero: at `k = 0` the initial lump `v0`
+enters through the same skim (whatever exceeds `L(0)` moves immediately).
+
+Properties (verified by golden tests and a 300-scenario reference sweep):
+
+- **Degeneration:** if the portfolio never outgrows the limit, the recursion
+  performs bit-identical operations to the pure-OKI branch; with `L = 0` it
+  is bit-identical to the pure regular account.
+- **No-crash dominance:** without crash years and with `r > 0`, the hybrid
+  never trails the pure regular account (the sub-limit part rides free, the
+  overflow part is treated identically).
+- **Not universally optimal:** vs pure OKI the overflow trades the fee for
+  Belka on its gains — whichever is cheaper wins, which is the calculator's
+  core question all over again. And under the crash overlay the hybrid can
+  trail even the pure regular account by a small margin: the yearly skim
+  re-bases the transferred part at post-crash prices, so its recovery is
+  taxed while the pure regular account is still sheltered by its old,
+  higher basis (worst observed shortfall in the sweep: ~0.12%).
+
+The hybrid is rendered only when it actually diverges from pure OKI (the
+first skim year exists). The payout phase and the break-even heatmap
+compare only the two pure strategies.
+
 ---
 
 ## 5. Closed form (analytical cross-check)

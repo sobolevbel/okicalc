@@ -4,7 +4,7 @@
 // Run with: node --test tests/
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { simulate, breakeven, feeRateFromNbp, payoutYears } from '../js/engine.js';
+import { simulate, simulateHybrid, breakeven, feeRateFromNbp, payoutYears } from '../js/engine.js';
 
 // Golden baseline: lump sum, accumulating instrument, constant 0.85% fee,
 // fixed 100k limit, no contributions.
@@ -224,6 +224,57 @@ test('sustainable payout is capped at 100 years', () => {
 
 test('payout larger than the portfolio dies in year 0 on both accounts', () => {
   assert.deepEqual(payoutYears({}, 120_000_000), { oki: 0, reg: 0 });
+});
+
+// --- hybrid strategy (simulateHybrid) ---
+// Golden values precomputed with an independent reference implementation
+// (skim to the valorized limit once a year after the contribution, the
+// transferred cash becomes new cost basis on the regular part).
+test('hybrid, engine defaults: net at years 10 and 20, overflow from year 1', () => {
+  const { rows, overflowYear } = simulateHybrid({});
+  assert.equal(overflowYear, 1); // 100k + 12k contribution > 100k limit
+  assert.equal(Math.round(rows[9].net), 358_767);
+  assert.equal(Math.round(rows[19].net), 835_781);
+});
+
+test('hybrid with dividends: yearly dividend tax on the regular part only', () => {
+  const { rows } = simulateHybrid({ y: 0.02 });
+  assert.equal(Math.round(rows[19].net), 826_796);
+});
+
+test('hybrid with crashes every 10 years, -30%', () => {
+  const { rows } = simulateHybrid({ crisisEvery: 10, crisisDrop: 0.30 });
+  assert.equal(Math.round(rows[19].net), 426_131);
+});
+
+test('hybrid, 500k lump: almost everything overflows to the regular part', () => {
+  const { rows } = simulateHybrid({ v0: 500_000 });
+  assert.equal(Math.round(rows[9].net), 1_072_124);
+  assert.equal(Math.round(rows[19].net), 2_165_558);
+});
+
+test('hybrid under a huge limit is bit-identical to pure OKI', () => {
+  const { rows, overflowYear } = simulateHybrid({ L0: 10_000_000 });
+  const base = simulate({ L0: 10_000_000 });
+  assert.equal(overflowYear, null);
+  rows.forEach((row, i) => assert.equal(row.net, base[i].oki));
+});
+
+test('hybrid under a zero limit is bit-identical to the pure regular account', () => {
+  const { rows } = simulateHybrid({ L0: 0 });
+  const base = simulate({ L0: 0 });
+  rows.forEach((row, i) => assert.equal(row.net, base[i].reg));
+});
+
+test('without crashes the hybrid never trails the pure regular account', () => {
+  for (const v0 of [0, 100_000, 500_000, 2_000_000]) {
+    for (const r of [0.01, 0.03, 0.07, 0.12]) {
+      const { rows } = simulateHybrid({ v0, r, n: 50 });
+      const base = simulate({ v0, r, n: 50 });
+      rows.forEach((row, i) => assert.ok(row.net >= base[i].reg - 1e-9,
+        `v0=${v0} r=${r} year=${i + 1}`));
+    }
+  }
 });
 
 // --- URL codec: payout + "today's money" round-trip ---

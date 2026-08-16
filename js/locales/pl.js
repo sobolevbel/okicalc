@@ -14,6 +14,8 @@ export default {
   'verdict.beUntil': 'OKI pozostaje na plusie przez {years}; potem roczna opłata przerasta korzyść z odroczenia podatku.',
   'verdict.beNever': 'Przy tych ustawieniach OKI przegrywa od pierwszego roku.',
   'verdict.beAlways': 'Przy tych ustawieniach OKI wygrywa przez cały 50-letni zakres.',
+  'verdict.hybridBest': 'Najlepiej wypada strategia mieszana (OKI tylko do limitu zwolnienia, nadwyżka na zwykłym koncie): {amount}, czyli o {diff} więcej niż lepszy z dwóch podstawowych wariantów.',
+  'verdict.hybridBehind': 'Strategia mieszana (OKI tylko do limitu zwolnienia, nadwyżka na zwykłym koncie) daje {amount} — o {diff} mniej niż najlepszy wariant.',
 
   'controls.title': 'Twój scenariusz',
   'controls.initial': 'Kwota początkowa',
@@ -65,6 +67,7 @@ export default {
   'stats.year': 'rok {n}',
   'stats.maxAdv': 'Szczyt przewagi',
   'stats.maxAdvDetail': '{amount} w roku {year}',
+  'stats.hybrid': 'Strategia mieszana (netto)',
 
   'chart.growth.title': 'Kapitał w czasie',
   'chart.growth.subtitle': 'Ile zostałoby Ci po sprzedaży i rozliczeniu podatków w danym roku',
@@ -74,6 +77,7 @@ export default {
   'chart.taxes.subtitle': 'Ile łącznie trafia do fiskusa na każdym z kont',
   'chart.series.oki': 'OKI',
   'chart.series.reg': 'Zwykłe konto',
+  'chart.series.hybrid': 'Strategia mieszana (OKI do limitu)',
   'chart.series.fee': 'Opłaty OKI (narastająco)',
   'chart.series.belka': 'Podatek Belki (przy sprzedaży w danym roku)',
   'chart.axis.year': 'Rok',
@@ -105,6 +109,7 @@ export default {
   'explain.regBody': 'Twoje pieniądze rosną nietknięte. Podatek płacisz raz — {t} od zysku, przy sprzedaży. Do tego czasu cały niezrealizowany zysk dalej procentuje, co na długim horyzoncie jest dużo warte. (Przy instrumentach dywidendowych podatek jest pobierany też od każdej wypłaty, co roku.)',
   'explain.okiTitle': 'OKI',
   'explain.okiBody': 'Zysków nie opodatkowuje się wcale. Zamiast tego co roku pobierana jest opłata {fee} od średniej wartości aktywów powyżej {limit} — niezależnie od tego, czy jesteś na plusie, czy na minusie. Każda opłata zabiera pieniądze, które dalej by procentowały.',
+  'explain.hybrid': 'Trzecia strategia — mieszana — trzyma w OKI tylko tyle, ile mieści się w limicie zwolnienia; nadwyżka jest raz w roku wypłacana z OKI (wypłaty są wolne od podatku) i pracuje dalej na zwykłym koncie. Po upływie horyzontu ({years}) daje {total} netto: {oki} w OKI oraz {reg} na zwykłym koncie po podatku Belki od tej części.',
   'explain.race': 'To wyścig: OKI wygrywa na początku, bo podatek Belki jest odroczony i ostatecznie ominięty, ale roczna opłata rośnie razem z portfelem i nigdy nie znika. W Twoim scenariuszu szala przechyla się w roku {year}.',
   'explain.raceNever': 'W Twoim scenariuszu opłata przewyższa korzyść już od pierwszego roku.',
   'explain.raceAlways': 'W Twoim scenariuszu OKI wygrywa przez całe 50 lat.',
@@ -118,6 +123,7 @@ export default {
   'explain.col.okiFee': 'Opłata OKI w danym roku',
   'explain.col.oki': 'Wartość OKI',
   'explain.col.reg': 'Zwykłe (po podatku)',
+  'explain.col.hybrid': 'Mieszana (netto)',
   'explain.col.belka': 'Belka przy sprzedaży',
   'explain.col.diff': 'Przewaga OKI',
   'formulas.okiHead': 'OKI — co roku',
@@ -145,6 +151,7 @@ export default {
   'assumptions.i7': 'Limit zwolnienia jest zamrożony do 2029 r. i od 2030 r. indeksowany o ustawioną inflację, zgodnie z ustawą.',
   'assumptions.i8': 'Poza opcjonalnym testem krachów stopa zwrotu jest co roku taka sama. Realne rynki są zmienne; zmienność ma tu znaczenie głównie dlatego, że opłata OKI jest pobierana również w latach stratnych.',
   'assumptions.i9': 'W fazie wypłat pieniądze są wypłacane na początku każdego roku; na zwykłym koncie koszt nabycia rozlicza się proporcjonalnie do sprzedawanej części, a zrealizowane straty nie przechodzą na kolejne lata.',
+  'assumptions.i10': 'W strategii mieszanej nadwyżka ponad limit jest raz w roku wypłacana z OKI i trafia na zwykłe konto jako nowy koszt nabycia; opłata od śródrocznego wzrostu ponad limit jest nadal naliczana. Faza wypłat i tabela „Jak długo OKI pozostaje na plusie?” porównują wyłącznie dwa podstawowe warianty.',
 
   'status.title': 'Status ustawy i aktualności',
   'status.body': 'Ustawa z 3 lipca 2026 r. o osobistych kontach inwestycyjnych została podpisana przez Prezydenta 13 sierpnia 2026 r. i wchodzi w życie 1 stycznia 2027 r. Szczegóły techniczne — m.in. dokładna definicja średniej wartości aktywów i lista kwalifikowanych instrumentów — doprecyzują dopiero rozporządzenia wykonawcze.',

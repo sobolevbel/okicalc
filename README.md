@@ -13,6 +13,10 @@ with a **regular brokerage account** taxed under the Belka rules.
 - Payout phase: set a net monthly withdrawal and see how many years each
   account funds it (OKI keeps paying the fee; each regular-account sale pays
   Belka on its profit share). Optional "in today's money" display toggle.
+- Hybrid third strategy: OKI capped at the exemption limit with the yearly
+  overflow skimmed (tax-free) to a regular account — shown automatically on
+  the growth chart, in the verdict and in the year table once the portfolio
+  outgrows the limit.
 - Verdict banner, capital/advantage/taxes charts (hand-rolled SVG),
   interactive break-even heatmap, plain-language methodology with a
   year-by-year breakdown, PDF report via the print dialog.

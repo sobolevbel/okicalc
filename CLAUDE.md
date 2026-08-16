@@ -53,7 +53,11 @@ with synthetic `PointerEvent`s dispatched in page context.
   **bit-identical to the base model when off** (a test enforces this).
   The heatmap deliberately ignores it, like contributions and dividends —
   and like the payout phase (`payoutYears`, MODEL.md §4.5), which never
-  touches the accumulation loop.
+  touches the accumulation loop. The hybrid strategy (`simulateHybrid`,
+  MODEL.md §4.6) is likewise a separate pure function that never touches
+  `simulate()`; heatmap and payout compare only the two pure strategies,
+  and all hybrid UI (chart line, verdict sentence, stat tile, legend item)
+  shows only when `overflowYear` is non-null.
 - The "today's money" toggle (`td`) is a **render-time transform only**
   (`displayDerived()` in main.js) — never bake deflation into the engine.
 - The FAQ exists in three places that must stay verbatim-identical:

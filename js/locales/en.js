@@ -15,6 +15,8 @@ export default {
   'verdict.beUntil': 'OKI stays ahead for {years}; after that the annual fee outgrows the deferred-tax benefit.',
   'verdict.beNever': 'With these settings OKI is behind from year one.',
   'verdict.beAlways': 'With these settings OKI stays ahead across the whole 50-year range.',
+  'verdict.hybridBest': 'The mixed strategy (OKI only up to the exemption limit, the excess on a regular account) does best: {amount}, which is {diff} more than the better of the two basic options.',
+  'verdict.hybridBehind': 'The mixed strategy (OKI only up to the exemption limit, the excess on a regular account) yields {amount} — {diff} less than the best option.',
 
   'controls.title': 'Your scenario',
   'controls.initial': 'Starting amount',
@@ -66,6 +68,7 @@ export default {
   'stats.year': 'year {n}',
   'stats.maxAdv': 'Peak advantage',
   'stats.maxAdvDetail': '{amount} in year {year}',
+  'stats.hybrid': 'Mixed strategy (net)',
 
   'chart.growth.title': 'Capital over time',
   'chart.growth.subtitle': 'What you would keep if you sold and settled taxes that year',
@@ -75,6 +78,7 @@ export default {
   'chart.taxes.subtitle': 'Total paid to the tax office on each account',
   'chart.series.oki': 'OKI',
   'chart.series.reg': 'Regular account',
+  'chart.series.hybrid': 'Mixed strategy (OKI up to the limit)',
   'chart.series.fee': 'OKI fees (cumulative)',
   'chart.series.belka': 'Belka tax (if sold that year)',
   'chart.axis.year': 'Year',
@@ -106,6 +110,7 @@ export default {
   'explain.regBody': 'Your money grows untouched. Tax is charged once — {t} of the profit, when you sell. Until then the whole unrealized gain keeps compounding, which is worth a lot over long periods. (For dividend-paying instruments the tax is also charged on every payout, every year.)',
   'explain.okiTitle': 'OKI',
   'explain.okiBody': 'No tax on profits at all. Instead, every year a fee of {fee} is charged on the average value of your assets above {limit} — profit or loss does not matter. Every fee payment removes money that would otherwise keep compounding.',
+  'explain.hybrid': 'The third strategy — the mixed one — keeps in OKI only what fits within the exemption limit; the excess is withdrawn from OKI once a year (withdrawals are tax-free) and keeps working on a regular account. After the horizon ({years}) it yields {total} net: {oki} in OKI plus {reg} on the regular account after the Belka tax on that part.',
   'explain.race': 'So it is a race: OKI wins early because the Belka tax is deferred and ultimately avoided, but its yearly fee grows with the portfolio and never stops. In your scenario the balance tips in year {year}.',
   'explain.raceNever': 'In your scenario the fee outweighs the benefit from the very first year.',
   'explain.raceAlways': 'In your scenario OKI stays ahead for the entire 50 years.',
@@ -119,6 +124,7 @@ export default {
   'explain.col.okiFee': 'OKI fee that year',
   'explain.col.oki': 'OKI value',
   'explain.col.reg': 'Regular (after tax)',
+  'explain.col.hybrid': 'Mixed (net)',
   'explain.col.belka': 'Belka if sold',
   'explain.col.diff': 'OKI advantage',
   'formulas.okiHead': 'OKI — each year',
@@ -146,6 +152,7 @@ export default {
   'assumptions.i7': 'The exemption limit is frozen until 2029 and indexed to your inflation setting from 2030, as the law prescribes.',
   'assumptions.i8': 'Outside the optional crash stress test the return is the same every year. Real markets zig-zag; volatility matters here mostly because the OKI fee is charged in loss years too.',
   'assumptions.i9': 'In the payout phase money is withdrawn at the start of each year; on the regular account the cost basis is allocated proportionally to the part sold, and realized losses are not carried forward.',
+  'assumptions.i10': 'In the mixed strategy the excess above the limit is withdrawn from OKI once a year and lands on the regular account as new cost basis; the fee on intra-year growth above the limit is still charged. The payout phase and the "How long does OKI stay ahead?" table compare only the two basic options.',
 
   'status.title': 'Law status and news',
   'status.body': 'The act of 3 July 2026 on personal investment accounts was signed by the President on 13 August 2026 and comes into force on 1 January 2027. Technical details — including the exact definition of average asset value and the list of qualifying instruments — are still to be specified in secondary regulations.',

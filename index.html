@@ -273,6 +273,7 @@
     <p class="verdict-main" id="verdictMain" aria-live="polite"></p>
     <p class="verdict-detail" id="verdictDetail"></p>
     <p class="verdict-be" id="verdictBe"></p>
+    <p class="verdict-be verdict-hybrid" id="verdictHybrid" hidden></p>
 
     <div class="print-only print-params">
       <h3 data-i18n="print.params">Parametry scenariusza</h3>
@@ -291,6 +292,7 @@
       <div class="stat"><p class="stat-label" data-i18n="stats.belka">Podatek Belki przy sprzedaży</p><p class="stat-value" id="stBelka"></p></div>
       <div class="stat"><p class="stat-label" data-i18n="stats.breakeven">OKI na plusie do</p><p class="stat-value" id="stBreakeven"></p></div>
       <div class="stat"><p class="stat-label" data-i18n="stats.maxAdv">Szczyt przewagi</p><p class="stat-value" id="stMaxAdv"></p></div>
+      <div class="stat" id="stHybridWrap" hidden><p class="stat-label" data-i18n="stats.hybrid">Strategia mieszana (netto)</p><p class="stat-value"><span class="key-dot hyb" aria-hidden="true"></span><span id="stHybrid"></span></p></div>
     </div>
   </section>
 
@@ -301,6 +303,7 @@
     <ul class="chart-legend">
       <li><span class="legend-key oki" aria-hidden="true"></span><span data-i18n="chart.series.oki">OKI</span></li>
       <li><span class="legend-key reg" aria-hidden="true"></span><span data-i18n="chart.series.reg">Zwykłe konto</span></li>
+      <li id="legHyb" hidden><span class="legend-key hyb" aria-hidden="true"></span><span data-i18n="chart.series.hybrid">Strategia mieszana (OKI do limitu)</span></li>
     </ul>
     <figure class="chart-figure" id="figGrowth" tabindex="0" role="img">
       <div class="chart-tooltip" hidden></div>
@@ -358,6 +361,7 @@
         <p id="exOki"></p>
       </div>
     </div>
+    <p id="exHybrid" hidden></p>
     <p id="exRace"></p>
     <h3 data-i18n="explain.stepsTitle">Co dzieje się w każdym symulowanym roku</h3>
     <ol class="steps">
@@ -378,6 +382,7 @@
               <th scope="col" data-i18n="explain.col.oki">Wartość OKI</th>
               <th scope="col" data-i18n="explain.col.belka">Belka przy sprzedaży</th>
               <th scope="col" data-i18n="explain.col.reg">Zwykłe (po podatku)</th>
+              <th scope="col" data-i18n="explain.col.hybrid">Mieszana (netto)</th>
               <th scope="col" data-i18n="explain.col.diff">Przewaga OKI</th>
             </tr>
           </thead>
@@ -452,6 +457,7 @@
       <li data-i18n="assumptions.i7"></li>
       <li data-i18n="assumptions.i8"></li>
       <li data-i18n="assumptions.i9"></li>
+      <li data-i18n="assumptions.i10"></li>
     </ul>
     <p class="disclaimer" data-i18n="disclaimer.text"></p>
     <p class="privacy" data-i18n="privacy.note"></p>

@@ -1,5 +1,5 @@
 // Wiring: state → recompute → render. One state object, URL-shareable.
-import { simulate, maxAdvantage, payoutYears } from './engine.js';
+import { simulate, simulateHybrid, maxAdvantage, payoutYears } from './engine.js';
 import { engineParams, encodeState, decodeState } from './state.js';
 import {
   LANGS, detectLang, setLang, currentLang, t, applyI18n,
@@ -28,7 +28,13 @@ function recompute() {
   const payout = state.payoutMonthly > 0
     ? payoutYears(engineParams(state), state.payoutMonthly * 12)
     : null;
-  derived = { rows, breakevenYear, peak: maxAdvantage(rows), payout };
+  // Third strategy: OKI capped at the limit, overflow on a regular account.
+  // Rendered only when it actually diverges from pure OKI (overflowYear).
+  const hyb = simulateHybrid(engineParams(state, 50));
+  derived = {
+    rows, hybrid: hyb.rows, overflowYear: hyb.overflowYear,
+    breakevenYear, peak: maxAdvantage(rows), payout,
+  };
 
   // The heatmap only depends on the advanced settings — cache accordingly.
   const key = [state.feePct, state.use2027, state.limit, state.inflPct, state.belkaPct].join('|');
@@ -46,17 +52,20 @@ function recompute() {
 // approximation, called out in the toggle's hint.
 const MONEY_FIELDS = ['oki', 'reg', 'regGross', 'basis', 'fee', 'cumFee',
   'exitTax', 'cumDivTax', 'belkaIfSold', 'adv'];
+const HYBRID_MONEY_FIELDS = ['net', 'okiPart', 'regPart', 'fee', 'cumFee'];
 
 function displayDerived() {
   if (!state.todayMoney || state.inflPct === 0) return derived;
   const q = 1 + state.inflPct / 100;
-  const rows = derived.rows.map((row) => {
+  const deflate = (source, fields) => source.map((row) => {
     const out = { ...row };
     const d = Math.pow(q, -row.year);
-    for (const key of MONEY_FIELDS) out[key] *= d;
+    for (const key of fields) out[key] *= d;
     return out;
   });
-  return { ...derived, rows, peak: maxAdvantage(rows) };
+  const rows = deflate(derived.rows, MONEY_FIELDS);
+  const hybrid = deflate(derived.hybrid, HYBRID_MONEY_FIELDS);
+  return { ...derived, rows, hybrid, peak: maxAdvantage(rows) };
 }
 
 /* ---------------- charts ---------------- */
@@ -69,10 +78,16 @@ function renderCharts(disp) {
 
   const okiVals = [state.v0, ...rows.map((r) => r.oki)];
   const regVals = [state.v0, ...rows.map((r) => r.reg)];
+  // The hybrid line would sit exactly on the OKI line while the portfolio
+  // fits within the limit — draw (and legend) it only once they diverge.
+  const showHybrid = disp.overflowYear !== null;
+  const hybVals = showHybrid ? [state.v0, ...disp.hybrid.map((r) => r.net)] : null;
+  document.getElementById('legHyb').hidden = !showHybrid;
   renderChart(document.getElementById('figGrowth'), {
     series: [
       { lineCls: 'line-oki', dotCls: 'end-dot oki', values: okiVals },
       { lineCls: 'line-reg', dotCls: 'end-dot reg', values: regVals },
+      ...(showHybrid ? [{ lineCls: 'line-hyb', dotCls: 'end-dot hyb', values: hybVals }] : []),
     ],
     includeZeroFloor: true,
     markers: { horizon: state.horizon, breakeven: breakevenYear, labels: markerLabels },
@@ -83,6 +98,9 @@ function renderCharts(disp) {
       rows: [
         { keyCls: 'oki', name: t('chart.series.oki'), value: fmtMoney(okiVals[y]) },
         { keyCls: 'reg', name: t('chart.series.reg'), value: fmtMoney(regVals[y]) },
+        ...(showHybrid
+          ? [{ keyCls: 'hyb', name: t('chart.series.hybrid'), value: fmtMoney(hybVals[y]) }]
+          : []),
       ],
     }),
   });
