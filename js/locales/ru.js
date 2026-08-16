@@ -11,7 +11,7 @@ export default {
   'verdict.regWins': 'Обычный счёт выгоднее на {amount}',
   'verdict.tie': 'Ничья — итог одинаковый',
   'verdict.detail': '{oki} на OKI против {reg} на обычном счёте ({pct})',
-  'verdict.beUntil': 'OKI впереди первые {years}; дальше ежегодный сбор перевешивает выгоду от отложенного налога.',
+  'verdict.beUntil': 'OKI впереди {years}; дальше ежегодный сбор перевешивает выгоду от отложенного налога.',
   'verdict.beNever': 'При этих настройках OKI проигрывает с первого года.',
   'verdict.beAlways': 'При этих настройках OKI впереди на всём 50-летнем горизонте.',
 
@@ -56,7 +56,7 @@ export default {
   'chart.adv.title': 'Преимущество OKI по годам',
   'chart.adv.subtitle': 'Насколько больше (или меньше) оставит вам OKI по сравнению с обычным счётом',
   'chart.taxes.title': 'Налоги и сборы нарастающим итогом',
-  'chart.taxes.subtitle': 'Всё, что уходит государству каждым из путей',
+  'chart.taxes.subtitle': 'Сколько всего уходит государству на каждом из счетов',
   'chart.series.oki': 'OKI',
   'chart.series.reg': 'Обычный счёт',
   'chart.series.fee': 'Сбор OKI (нарастающим итогом)',

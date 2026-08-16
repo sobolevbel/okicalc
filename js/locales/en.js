@@ -12,7 +12,7 @@ export default {
   'verdict.regWins': 'The regular account comes out ahead by {amount}',
   'verdict.tie': 'Dead heat — both end at the same amount',
   'verdict.detail': '{oki} on OKI vs {reg} on a regular account ({pct})',
-  'verdict.beUntil': 'OKI stays ahead for the first {years}; after that the annual fee outgrows the deferred-tax benefit.',
+  'verdict.beUntil': 'OKI stays ahead for {years}; after that the annual fee outgrows the deferred-tax benefit.',
   'verdict.beNever': 'With these settings OKI is behind from year one.',
   'verdict.beAlways': 'With these settings OKI stays ahead across the whole 50-year range.',
 
@@ -57,7 +57,7 @@ export default {
   'chart.adv.title': 'OKI advantage by year',
   'chart.adv.subtitle': 'How much more (or less) OKI leaves you with vs the regular account',
   'chart.taxes.title': 'Cumulative taxes and fees',
-  'chart.taxes.subtitle': 'Everything paid to the tax office by each route',
+  'chart.taxes.subtitle': 'Total paid to the tax office on each account',
   'chart.series.oki': 'OKI',
   'chart.series.reg': 'Regular account',
   'chart.series.fee': 'OKI fees (cumulative)',
