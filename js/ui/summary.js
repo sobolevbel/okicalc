@@ -5,7 +5,10 @@ export function renderSummary(state, { rows, breakevenYear, peak }) {
   const at = rows[state.horizon - 1];
   const diff = at.adv;
 
-  document.getElementById('verdictAfter').textContent = tp('plural.yearsAfter', state.horizon);
+  // The "today's money" badge rides along wherever amounts change, so
+  // deflated numbers never look like a bug.
+  const badge = state.todayMoney ? `, ${t('controls.todayBadge')}` : '';
+  document.getElementById('verdictAfter').textContent = tp('plural.yearsAfter', state.horizon) + badge;
 
   const main = document.getElementById('verdictMain');
   main.textContent = '';
@@ -35,7 +38,7 @@ export function renderSummary(state, { rows, breakevenYear, peak }) {
   else if (breakevenYear >= 50) be.textContent = t('verdict.beAlways');
   else be.textContent = t('verdict.beUntil', { years: years(breakevenYear) });
 
-  document.getElementById('statsHeading').textContent = t('stats.heading', { years: years(state.horizon) });
+  document.getElementById('statsHeading').textContent = t('stats.heading', { years: years(state.horizon) }) + badge;
   document.getElementById('stOki').textContent = fmtMoney(at.oki);
   document.getElementById('stReg').textContent = fmtMoney(at.reg);
   document.getElementById('stDiff').textContent = fmtSignedMoney(diff);

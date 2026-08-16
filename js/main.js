@@ -37,9 +37,30 @@ function recompute() {
   }
 }
 
+/* ---------------- "today's money" display transform ---------------- */
+// Display-only deflation by the inflation slider: row k is divided by
+// (1+i)^k. Sign/ordering-preserving, so break-even years never move; the
+// peak-advantage marker is recomputed on the deflated curve. Running sums
+// (cumFee, belkaIfSold) are deflated by the year they are shown in — an
+// approximation, called out in the toggle's hint.
+const MONEY_FIELDS = ['oki', 'reg', 'regGross', 'basis', 'fee', 'cumFee',
+  'exitTax', 'cumDivTax', 'belkaIfSold', 'adv'];
+
+function displayDerived() {
+  if (!state.todayMoney || state.inflPct === 0) return derived;
+  const q = 1 + state.inflPct / 100;
+  const rows = derived.rows.map((row) => {
+    const out = { ...row };
+    const d = Math.pow(q, -row.year);
+    for (const key of MONEY_FIELDS) out[key] *= d;
+    return out;
+  });
+  return { ...derived, rows, peak: maxAdvantage(rows) };
+}
+
 /* ---------------- charts ---------------- */
-function renderCharts() {
-  const { rows, breakevenYear, peak } = derived;
+function renderCharts(disp) {
+  const { rows, breakevenYear, peak } = disp;
   const markerLabels = {
     horizon: t('chart.marker.horizon'),
     breakeven: t('chart.marker.breakeven'),
@@ -126,12 +147,13 @@ function renderHeat(force = false) {
 }
 
 function renderAll() {
+  const disp = displayDerived();
   syncControls(state);
-  renderSummary(state, derived);
+  renderSummary(state, disp);
   renderPayout(state, derived.payout);
-  renderCharts();
+  renderCharts(disp);
   renderHeat();
-  renderExplain(state, derived);
+  renderExplain(state, disp);
 }
 
 /* ---------------- state updates + URL sync ---------------- */
@@ -294,6 +316,6 @@ new ResizeObserver(() => {
   resizePending = true;
   requestAnimationFrame(() => {
     resizePending = false;
-    renderCharts();
+    renderCharts(displayDerived());
   });
 }).observe(document.querySelector('main'));

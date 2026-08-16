@@ -221,3 +221,13 @@ test('payout with dividends: yearly dividend tax drags the regular account', () 
 test('sustainable payout is capped at 100 years', () => {
   assert.deepEqual(payoutYears({}, 36_000), { oki: 100, reg: 100 });
 });
+
+// --- URL codec: payout + "today's money" round-trip ---
+test('URL codec round-trips w and td keys', async () => {
+  const { encodeState, decodeState, DEFAULT_STATE } = await import('../js/state.js');
+  const s = { ...DEFAULT_STATE, payoutMonthly: 5000, todayMoney: true };
+  const q = encodeState(s).toString();
+  assert.equal(q, 'w=5000&td=1');
+  assert.deepEqual(decodeState(`?${q}`), s);
+  assert.equal(encodeState({ ...DEFAULT_STATE }).toString(), '');
+});

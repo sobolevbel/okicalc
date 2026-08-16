@@ -37,6 +37,7 @@ export function renderExplain(state, { rows, breakevenYear, payout }) {
   document.getElementById('exStep3').textContent = t('explain.step3', vars);
   document.getElementById('exStep4').textContent = t('explain.step4', vars);
 
+  document.getElementById('ybreakBadge').hidden = !state.todayMoney;
   const tbody = document.getElementById('ybreakBody');
   tbody.textContent = '';
   for (const row of rows) {
@@ -80,6 +81,7 @@ export function renderPrintParams(state) {
   add(t('controls.use2027'), state.use2027 ? '✓' : '—');
   add(t('controls.limit'), fmtMoney(state.limit));
   add(t('controls.inflation'), fmtPct(state.inflPct, 1));
+  add(t('controls.todayMoney'), state.todayMoney ? '✓' : '—');
   add(t('controls.dividend'), fmtPct(state.divPct, 1));
   add(t('controls.belka'), fmtPct(state.belkaPct, 1));
   add(t('controls.crisisEvery'), state.crisisEvery === 0

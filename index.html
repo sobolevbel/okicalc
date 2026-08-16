@@ -188,6 +188,11 @@
             <input type="range" id="in-inflPct" min="0" max="8" step="0.1" value="2.5">
             <input type="number" id="num-inflPct" min="0" max="8" step="0.1" value="2.5" data-i18n-aria="controls.inflation" aria-label="Inflacja (waloryzacja limitu od 2030 r.)">
           </div>
+          <div class="check-row" style="margin-top:12px">
+            <input type="checkbox" id="chkToday">
+            <label for="chkToday" data-i18n="controls.todayMoney">Pokazuj kwoty w dzisiejszych cenach</label>
+          </div>
+          <p class="hint" data-i18n="controls.todayHint">Wyniki są przeliczane na dzisiejszą siłę nabywczą według inflacji ustawionej powyżej. Nie zmienia to porównania OKI kontra zwykłe konto — obie kwoty są przeliczane tak samo.</p>
         </div>
         <div class="field">
           <div class="field-head">
@@ -346,7 +351,7 @@
     </ol>
 
     <details class="sub" id="detYbreak">
-      <summary data-i18n="explain.tableTitle">Rozbicie rok po roku</summary>
+      <summary><span data-i18n="explain.tableTitle">Rozbicie rok po roku</span> <span class="today-badge" id="ybreakBadge" data-i18n="controls.todayBadge" hidden>w dzisiejszych cenach</span></summary>
       <div class="ybreak-scroll">
         <table class="ybreak">
           <thead>

@@ -30,6 +30,7 @@ export const DEFAULT_STATE = Object.freeze({
   crisisEvery: 0, // stress test off by default
   crisisDropPct: 30,
   payoutMonthly: 0, // 0 = sell everything at the horizon (no payout phase)
+  todayMoney: false, // display-only: deflate rendered amounts by inflPct
 });
 
 export const NBP_PRESETS = [2.0, 3.0, 3.75, 5.0, 6.0];
@@ -84,6 +85,7 @@ export function encodeState(s) {
     if (s[key] !== DEFAULT_STATE[key]) p.set(short, String(s[key]));
   }
   if (!s.use2027) p.set('y27', '0');
+  if (s.todayMoney) p.set('td', '1');
   return p;
 }
 
@@ -96,5 +98,6 @@ export function decodeState(search) {
   }
   s.crisisEvery = Math.round(s.crisisEvery); // whole years only
   if (p.get('y27') === '0') s.use2027 = false;
+  if (p.get('td') === '1') s.todayMoney = true;
   return s;
 }
