@@ -166,6 +166,10 @@ export default {
   'faq.a6': 'No. IKE and IKZE keep working as before, and OKI is independent of them. This calculator compares OKI only with a regular brokerage account.',
   'faq.q7': 'What can you invest in inside an OKI?',
   'faq.a7': 'The exemption covers so-called qualifying assets: shares of companies with złoty-denominated share capital, złoty-denominated bonds and covered bonds (excluding structured bonds), złoty cash, and funds — including ETFs — whose investment policy keeps at least 70% in such assets. Popular foreign ETFs usually do not meet that condition; speculative instruments (cryptocurrencies, options, CFDs) are excluded altogether. Secondary regulations will confirm the details.',
+  'faq.q8': 'Which brokers offer OKI?',
+  'faq.a8': 'None yet — the accounts only launch on 1 January 2027. According to industry press, however, seven of the ten largest brokerage houses declare they will offer OKI from day one; XTB and BM PKO BP, among others, intend to compete for the lead, and fund managers are preparing OKI funds. Concrete offers and price lists will appear closer to launch.',
+  'faq.q9': 'What charges apply to an OKI besides the asset fee?',
+  'faq.a9': 'The act provides that maintaining the OKI itself is to be free of charge, but it does not cap ordinary market costs: brokerage commissions on trades, fund management fees or currency spreads — the provider sets these and must list them in the account agreement. This calculator models only the statutory asset fee.',
 
   'disclaimer.text': 'Calculations follow the act of 3 July 2026 (in force from 1 January 2027) as understood on the build date. This is not tax or investment advice; secondary regulations may change details — especially the definition of average asset value and the list of qualifying instruments.',
 

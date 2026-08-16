@@ -165,6 +165,10 @@ export default {
   'faq.a6': 'Nie. IKE i IKZE działają dalej na dotychczasowych zasadach, a OKI jest od nich niezależne. Ten kalkulator porównuje OKI wyłącznie ze zwykłym kontem maklerskim.',
   'faq.q7': 'W co można inwestować w ramach OKI?',
   'faq.a7': 'Ze zwolnienia korzystają tzw. aktywa kwalifikowane: akcje spółek z kapitałem zakładowym w złotych, obligacje i listy zastawne denominowane w złotych (bez obligacji strukturyzowanych), środki pieniężne w złotych oraz fundusze — w tym ETF-y — których polityka inwestycyjna przewiduje co najmniej 70% takich aktywów. Popularne zagraniczne ETF-y zwykle tego warunku nie spełniają; instrumenty spekulacyjne (kryptowaluty, opcje, CFD) są wyłączone całkowicie. Szczegóły potwierdzą rozporządzenia wykonawcze.',
+  'faq.q8': 'Którzy brokerzy oferują OKI?',
+  'faq.a8': 'Na razie nikt — konta ruszą dopiero 1 stycznia 2027 r. Według prasy branżowej siedmiu z dziesięciu największych domów maklerskich deklaruje jednak, że zaoferuje OKI od pierwszego dnia; o pozycję lidera zamierzają walczyć m.in. XTB i BM PKO BP, a TFI przygotowują fundusze pod OKI. Konkretne oferty i cenniki poznamy bliżej startu.',
+  'faq.q9': 'Jakie opłaty obowiązują na OKI poza opłatą od aktywów?',
+  'faq.a9': 'Ustawa przewiduje, że samo prowadzenie OKI ma być bezpłatne, ale nie ogranicza zwykłych kosztów rynkowych: prowizji maklerskich od transakcji, opłat za zarządzanie funduszami czy spreadów walutowych — te ustala dostawca i musi je wymienić w umowie o prowadzenie konta. Ten kalkulator modeluje wyłącznie ustawową opłatę od aktywów.',
 
   'disclaimer.text': 'Obliczenia oparte na ustawie z 3 lipca 2026 r. (wchodzi w życie 1 stycznia 2027 r.) według stanu wiedzy na dzień budowy. To nie jest porada podatkowa ani inwestycyjna; akty wykonawcze mogą zmienić szczegóły — zwłaszcza definicję średniej wartości aktywów i listę kwalifikujących się instrumentów.',
 
