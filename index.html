@@ -308,12 +308,30 @@
 
     <details class="sub no-print">
       <summary data-i18n="explain.formulasTitle">Dla dociekliwych: dokładne wzory</summary>
-      <pre aria-label="Model"><code>OKI:      V ← (V + c)·(1+r) − f·max( (V + c)·(1+r)^0,5 − L , 0 )
-          L = limit · (1+inflacja)^max(0, rok−3)     [od 2030]
-          f = 0,85% w 2027; potem 19% stopy NBP (min 0,1%)
-
-Zwykłe:   V ← (V + c)·(1+r−y) + V·y·(1−t)
-          wynik = V − t·max(V − koszty, 0),  t = 19%</code></pre>
+      <div class="formulas">
+        <h4><span class="key-dot oki" aria-hidden="true"></span><span data-i18n="formulas.okiHead">OKI — co roku</span></h4>
+        <div class="frow">
+          <code data-i18n="formulas.okiStep">wartość ← (wartość + wpłata) × (1 + zwrot) − opłata</code>
+          <p data-i18n="formulas.okiStepNote">Wpłata trafia na początek roku, portfel rośnie o oczekiwany zwrot, na końcu pobierana jest opłata.</p>
+        </div>
+        <div class="frow">
+          <code data-i18n="formulas.okiFee">opłata = stawka × (średnia wartość w roku − limit zwolnienia)</code>
+          <p data-i18n="formulas.okiFeeNote">Naliczana tylko od nadwyżki ponad limit; średnią wartość przybliżamy wartością z połowy roku. Należna także w roku stratnym. Stawka: 0,85% w 2027 r., potem 19% stopy referencyjnej NBP (min. 0,1%).</p>
+        </div>
+        <div class="frow">
+          <code data-i18n="formulas.okiLimit">limit: 100 000 zł, od 2030 r. indeksowany o inflację</code>
+          <p data-i18n="formulas.okiLimitNote">Zamrożony do 2029 r., potem rośnie co roku o ustawioną inflację.</p>
+        </div>
+        <h4><span class="key-dot reg" aria-hidden="true"></span><span data-i18n="formulas.regHead">Zwykłe konto — co roku</span></h4>
+        <div class="frow">
+          <code data-i18n="formulas.regStep">wartość ← (wartość + wpłata) × (1 + zwrot)</code>
+          <p data-i18n="formulas.regStepNote">Rośnie bez podatku. Jeśli instrument wypłaca dywidendy, z każdej wypłaty potrącane jest 19%, reszta jest reinwestowana.</p>
+        </div>
+        <div class="frow">
+          <code data-i18n="formulas.regExit">wynik przy sprzedaży = wartość − 19% × zysk</code>
+          <p data-i18n="formulas.regExitNote">Podatek płacony raz, przy sprzedaży, i tylko od zysku: bieżąca wartość minus wszystko, co wpłacono (wpłaty i reinwestowane dywidendy).</p>
+        </div>
+      </div>
       <p class="hint" data-i18n="explain.formulasNote">Model jest opisany w dokumencie „Model i metodologia”; testy automatyczne przypinają jego dokładne wartości.</p>
     </details>
   </section>

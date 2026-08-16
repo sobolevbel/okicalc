@@ -11,9 +11,9 @@ const LOCALES = { pl, en, ru, be, uk };
 export const LANGS = [
   { code: 'pl', label: 'Polski' },
   { code: 'en', label: 'English' },
-  { code: 'ru', label: 'Русский' },
   { code: 'be', label: 'Беларуская' },
   { code: 'uk', label: 'Українська' },
+  { code: 'ru', label: 'Русский' },
 ];
 
 const STORAGE_KEY = 'okicalc:lang';

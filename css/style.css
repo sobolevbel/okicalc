@@ -322,6 +322,15 @@ td.pos { color: var(--c-oki); }
 td.neg { color: var(--c-neg); }
 
 /* ============ Assumptions & footer ============ */
+.formulas h4 { display: flex; align-items: center; gap: 8px; margin: 16px 0 6px; font-size: 0.95rem; }
+.formulas .frow { margin: 10px 0 14px; }
+.formulas .frow code {
+  display: inline-block; max-width: 100%; overflow-x: auto;
+  background: var(--wash); border: 1px solid var(--border);
+  border-radius: 6px; padding: 6px 10px;
+}
+.formulas .frow p { margin: 5px 0 0; color: var(--muted); font-size: 0.85rem; }
+
 .assumptions ul { padding-left: 1.2em; margin: 8px 0; }
 .assumptions li { margin: 6px 0; color: var(--ink-2); font-size: 0.9rem; }
 .disclaimer { color: var(--muted); font-size: 0.82rem; }
