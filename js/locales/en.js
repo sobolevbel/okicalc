@@ -71,7 +71,7 @@ export default {
   'chart.a11yNote': 'The same data is available in the year-by-year breakdown table below.',
 
   'table.title': 'How long does OKI stay ahead?',
-  'table.subtitle': 'Each cell shows the last year OKI is still ahead for that lump sum and return. 0 = behind from year one, “=” = no difference (neither the fee nor any tax arises), 50+ = ahead beyond 50 years. Click a cell to load it as your scenario.',
+  'table.subtitle': 'Each cell shows the last year OKI is still ahead for that lump sum and return. 0 means behind from year one, “=” means no difference (neither the fee nor any tax arises), and 50+ means ahead beyond 50 years. Click a cell to load it as your scenario.',
   'table.corner': 'Amount, zł',
   'table.aria': 'Break-even years by amount and annual return',
   'table.cellAria': '{sum} at {rate} yearly: {text}',
