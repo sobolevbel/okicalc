@@ -35,7 +35,7 @@ export default {
   'controls.belka': 'Stawka podatku Belki',
   'controls.crisisEvery': 'Krachy rynkowe: częstotliwość',
   'controls.crisisDrop': 'Spadek w roku krachu',
-  'controls.crisisHint': 'Test warunków skrajnych: co N-ty rok rynek zamiast rosnąć spada o ustawiony procent. Lata są stałe, nie losowe — udostępniony link odtwarza ten sam wynik. 0 = brak krachów.',
+  'controls.crisisHint': 'Test warunków skrajnych: co N-ty rok rynek zamiast rosnąć spada o ustawiony procent. Lata krachów są ustalone z góry, nie losowe — udostępniony link odtwarza ten sam wynik. 0 = brak krachów.',
   'controls.crisisOff': 'wył.',
   'controls.realism': 'Dodaj realizmu: krach −30% co 8 lat',
   'controls.reset': 'Przywróć domyślne',

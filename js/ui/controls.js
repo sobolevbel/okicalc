@@ -18,7 +18,7 @@ const FORMAT = {
   belkaPct: (v) => fmtPct(v, 1),
   horizon: (v) => years(v),
   crisisEvery: (v) => (v === 0 ? t('controls.crisisOff') : tp('plural.everyYears', v)),
-  crisisDropPct: (v) => fmtPct(-v, 0), // shown as a negative: it is a drawdown
+  crisisDropPct: (v) => fmtPct(-v || 0, 0), // negative — it is a drawdown ("-0%" avoided)
 };
 
 export function initControls(update) {

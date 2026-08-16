@@ -75,6 +75,6 @@ export function renderPrintParams(state) {
   add(t('controls.belka'), fmtPct(state.belkaPct, 1));
   add(t('controls.crisisEvery'), state.crisisEvery === 0
     ? t('controls.crisisOff') : tp('plural.everyYears', state.crisisEvery));
-  if (state.crisisEvery > 0) add(t('controls.crisisDrop'), fmtPct(-state.crisisDropPct, 0));
+  if (state.crisisEvery > 0) add(t('controls.crisisDrop'), fmtPct(-state.crisisDropPct || 0, 0));
   add(t('print.generated'), new Date().toLocaleDateString(currentLang()));
 }
