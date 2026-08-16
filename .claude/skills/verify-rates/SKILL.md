@@ -32,12 +32,13 @@ checklist for auditing them against reality and updating the code safely.
 | Fact | Files |
 |---|---|
 | Default fee rate from 2028 (`0.71` = NBP 3.75%) | `js/state.js` DEFAULT_STATE.feePct; `js/engine.js` DEFAULTS.f |
-| Transitional 2027 rate `0.85%` | `js/engine.js` (f2027, feeRateFromNbp docs), `js/state.js`, all `js/locales/*.js` (`controls.use2027`), `index.html` static label + formulas `<pre>` |
+| Transitional 2027 rate `0.85%` | `js/engine.js` (f2027, feeRateFromNbp docs), `js/state.js`, all `js/locales/*.js` (`controls.use2027`, `formulas.okiFeeNote`), `index.html` static labels (checkbox + formulas rows) |
 | NBP presets `[2.00, 3.00, 3.75, 5.00, 6.00]` | `js/state.js` NBP_PRESETS (labels derive automatically) |
-| Limit `100 000 zł` default | `js/engine.js` DEFAULTS.L0, `js/state.js`, locale strings (`app.tagline` in some locales, `explain.*` use runtime values — check for hardcoded mentions), `index.html` meta/JSON-LD, `README.md` |
+| Statutory fee formula (19% of NBP, floor 0.1%) | `js/engine.js` feeRateFromNbp, locale `controls.feeHint` + `formulas.okiFeeNote`, `MODEL.md` §2 |
+| Limit `100 000 zł` default | `js/engine.js` DEFAULTS.L0, `js/state.js`, locale strings (`app.tagline` in some locales, `formulas.okiLimit`; `explain.*` use runtime values), `index.html` meta/JSON-LD + static formulas rows, `README.md` |
 | Sub-limit `25 000 zł` | locale `assumptions.i3` |
-| Belka `19%` default | `js/engine.js` DEFAULTS.t, `js/state.js` belkaPct, locale strings (`app.tagline`, `explain.regBody` uses runtime var — check tagline!), `index.html` description |
-| Years 2027/2028/2029/2030 | locale strings (`controls.fee`, `controls.inflation`, `assumptions.i7`), `index.html`, `CLAUDE.md`, `README.md` |
+| Belka `19%` default | `js/engine.js` DEFAULTS.t, `js/state.js` belkaPct, locale strings (`app.tagline`, `formulas.regExit`, `formulas.regStepNote`; `explain.regBody` uses runtime var), `index.html` description + static formulas rows |
+| Years 2027/2028/2029/2030 | locale strings (`controls.fee`, `controls.inflation`, `assumptions.i7`, `formulas.okiLimit`, `formulas.okiLimitNote`), `index.html`, `CLAUDE.md`, `README.md` |
 | Law date "3 July 2026" | locale `disclaimer.text` (all 5), `README.md` |
 
 ## 3. Update rules

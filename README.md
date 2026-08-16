@@ -29,17 +29,15 @@ The financial model is specified in detail in [`MODEL.md`](./MODEL.md)
 precomputed golden dataset: a full 16×14 break-even table, advantage
 curves, sensitivity tables and an analytical closed-form cross-check.
 
+GitHub Actions runs the test suite on every push and pull request.
+
 ## Google Analytics
 
-Set your GA4 Measurement ID in `index.html`:
-
-```js
-window.GA_MEASUREMENT_ID = 'G-XXXXXXXXXX';
-```
-
-With an empty ID nothing is loaded and no data is collected. With an ID set,
-a localized accept/decline cookie banner appears and GA loads only after the
-visitor accepts (GDPR/ePrivacy); the choice is remembered in localStorage.
+Analytics is enabled: the GA4 Measurement ID lives in `index.html`
+(`window.GA_MEASUREMENT_ID`). A localized accept/decline cookie banner
+gates it — GA loads only after the visitor accepts (GDPR/ePrivacy), and the
+choice is remembered in localStorage. Set the ID to an empty string to
+disable both the banner and GA; replace it with your own ID when forking.
 
 ## Deployment
 

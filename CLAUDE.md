@@ -10,7 +10,7 @@ Static site: no build step, no frameworks, no backend. ES modules served as-is.
 ## Commands
 
 ```bash
-npm test        # node --test tests/ — must stay green, see "Golden tests"
+npm test        # node --test tests/engine.test.js — must stay green
 npm run serve   # python3 http.server :8321 (ES modules require http://)
 ```
 
@@ -30,8 +30,9 @@ with synthetic `PointerEvent`s dispatched in page context.
   key set; every locale must define exactly the same keys. Plurals via
   `Intl.PluralRules` (`plural.*` entries hold one/few/many/other forms).
 - `js/ui/` — controls (paired range+number inputs), chart (hand-rolled SVG),
-  table (break-even heatmap), summary (verdict + tiles), explain (methodology
-  + year table + print params). `js/main.js` wires state → recompute → render.
+  table (break-even heatmap; exact dead heats render as '=' with a neutral
+  fill, not 0), summary (verdict + tiles), explain (methodology + year table
+  + print params). `js/main.js` wires state → recompute → render.
 - `css/style.css` — design tokens on `:root`, dark theme declared twice
   (media query + `[data-theme]`) so the 3-state toggle beats the OS setting;
   this duplication is deliberate, do not "deduplicate" it with `light-dark()`
@@ -61,7 +62,11 @@ GitHub Pages, "Deploy from a branch" → `main` / root, repo
 before pushing). All paths are relative (site lives under `/okicalc/`).
 CI: `.github/workflows/test.yml` runs `node --test` on push/PR.
 
-Google Analytics: `window.GA_MEASUREMENT_ID` in `index.html` (empty = off).
+Google Analytics: enabled — `window.GA_MEASUREMENT_ID = 'G-R81XBHG17N'` in
+`index.html`. GA loads only after the visitor accepts the localized cookie
+banner (`initConsent`/`loadGa` in `js/main.js`); an empty ID disables both
+the banner and GA. ImgBot is silenced via `.imgbotconfig` (ignores all
+image types) — don't expect image-optimization PRs.
 
 ## i18n / SEO notes
 
