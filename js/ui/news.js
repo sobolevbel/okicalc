@@ -15,7 +15,7 @@ export function renderNews() {
   const list = document.getElementById('newsList');
   list.textContent = '';
   const lang = currentLang();
-  for (const item of [...NEWS].sort((a, b) => (a.date < b.date ? 1 : -1))) {
+  for (const item of [...NEWS].sort((a, b) => b.date.localeCompare(a.date))) {
     const li = document.createElement('li');
     const time = document.createElement('time');
     time.dateTime = item.date;

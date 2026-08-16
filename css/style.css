@@ -187,7 +187,9 @@ input[type="range"]::-moz-range-thumb {
 }
 
 /* ============ FAQ ============ */
-details.sub > p { margin: 0 0 6px; color: var(--ink-2); }
+/* Scoped to the FAQ card: details.sub is also used for the year table and
+   formulas, whose children have their own styling. */
+.faq details.sub > p { margin: 0 0 6px; color: var(--ink-2); }
 
 /* "Today's money" badge: marks every place where amounts are deflated */
 .today-badge { font-weight: 400; font-size: 0.85em; color: var(--muted); }

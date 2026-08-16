@@ -117,8 +117,10 @@ export function maxAdvantage(rows) {
 // The global year index keeps running, so limit valorization and the crash
 // pattern continue seamlessly across the accumulation/payout boundary.
 // Returns how many FULL years each account funds the withdrawal, capped at
-// maxYears (a returned maxYears means "lasts maxYears or more").
-export function payoutYears(params, wNet, maxYears = 100) {
+// PAYOUT_MAX_YEARS (a returned cap value means "lasts this long or more").
+export const PAYOUT_MAX_YEARS = 100;
+
+export function payoutYears(params, wNet, maxYears = PAYOUT_MAX_YEARS) {
   const p = { ...DEFAULTS, ...params };
   const { r, n, f, L0, idx, idxFrom, y, t, crisisEvery, crisisDrop } = p;
   const last = simulate(p).at(-1);
