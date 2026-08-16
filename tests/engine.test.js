@@ -157,3 +157,39 @@ test('feeRateFromNbp presets', () => {
   assert.equal(feeRateFromNbp(6.00), 1.14);
   assert.equal(feeRateFromNbp(0.25), 0.1); // clamped to the statutory floor
 });
+
+// --- crash stress test (crisisEvery / crisisDrop overlay) ---
+// Golden values precomputed with an independent reference implementation.
+test('crisis overlay off is bit-identical to the base model', () => {
+  const base = simulate({ ...DOC, v0: 500_000, r: 0.07, n: 30 });
+  const off = simulate({ ...DOC, v0: 500_000, r: 0.07, n: 30, crisisEvery: 0, crisisDrop: 0.30 });
+  assert.deepEqual(off, base);
+});
+
+test('crashes every 8 years, -30%: 500k lump + engine defaults', () => {
+  const p = { v0: 500_000, crisisEvery: 8, crisisDrop: 0.30 };
+  const rows = simulate(p); // n = 20, f = 0.71%, contributions 12k/yr
+  assert.equal(Math.round(rows.at(-1).oki), 1_012_531);
+  assert.equal(Math.round(rows.at(-1).reg), 1_051_883);
+  assert.equal(Math.round(rows.at(-1).cumFee), 95_394);
+  assert.equal(Math.round(rows.at(-1).belkaIfSold), 73_158);
+  // the fee is charged even in the crash year itself
+  assert.equal(Math.round(rows[7].fee), 4_486);
+  assert.equal(breakeven(p, 50), 7);
+});
+
+test('crashes hurt OKI relative to the regular account', () => {
+  const calm = simulate({ v0: 500_000 }).at(-1).adv;
+  const rough = simulate({ v0: 500_000, crisisEvery: 8, crisisDrop: 0.30 }).at(-1).adv;
+  assert.equal(Math.round(calm), 63_723);
+  assert.ok(rough < calm, `rough ${rough} should be < calm ${calm}`);
+});
+
+test('crashes with dividends: payout still made and taxed in a crash year', () => {
+  const p = { crisisEvery: 5, crisisDrop: 0.20, y: 0.02 }; // defaults: 100k + 12k/yr
+  const rows = simulate(p);
+  assert.equal(Math.round(rows.at(-1).oki), 340_492);
+  assert.equal(Math.round(rows.at(-1).reg), 339_836);
+  assert.equal(breakeven(p, 50), 23);
+  assert.ok(rows[4].cumDivTax > rows[3].cumDivTax); // year 5 is a crash year
+});

@@ -2,9 +2,10 @@
 // to the state. Rendering of results lives elsewhere.
 import { DEFAULT_STATE, NBP_PRESETS, clamp } from '../state.js';
 import { feeRateFromNbp } from '../engine.js';
-import { t, fmtMoney, fmtPct, years, fmtNumber } from '../i18n.js';
+import { t, tp, fmtMoney, fmtPct, years, fmtNumber } from '../i18n.js';
 
-const KEYS = ['v0', 'monthly', 'rPct', 'horizon', 'feePct', 'limit', 'inflPct', 'divPct', 'belkaPct'];
+const KEYS = ['v0', 'monthly', 'rPct', 'horizon', 'feePct', 'limit', 'inflPct', 'divPct', 'belkaPct',
+  'crisisEvery', 'crisisDropPct'];
 
 const FORMAT = {
   v0: (v) => fmtMoney(v),
@@ -16,6 +17,8 @@ const FORMAT = {
   divPct: (v) => fmtPct(v, 1),
   belkaPct: (v) => fmtPct(v, 1),
   horizon: (v) => years(v),
+  crisisEvery: (v) => (v === 0 ? t('controls.crisisOff') : tp('plural.everyYears', v)),
+  crisisDropPct: (v) => fmtPct(-v, 0), // shown as a negative: it is a drawdown
 };
 
 export function initControls(update) {
@@ -38,6 +41,13 @@ export function initControls(update) {
     presets.appendChild(btn);
   }
   relabelPresets();
+
+  // "Add realism" toggle: one click enables a typical crash cycle, another
+  // turns the stress test off (the sliders stay for fine-tuning).
+  document.getElementById('btnRealism').addEventListener('click', () => {
+    const active = (parseFloat(document.getElementById('in-crisisEvery').value) || 0) > 0;
+    update(active ? { crisisEvery: 0 } : { crisisEvery: 8, crisisDropPct: 30 });
+  });
 
   document.getElementById('btnReset').addEventListener('click', () => update({ ...DEFAULT_STATE }));
 }
@@ -64,6 +74,7 @@ export function syncControls(state) {
     out.value = formatted;
   }
   document.getElementById('chk2027').checked = state.use2027;
+  document.getElementById('btnRealism').setAttribute('aria-pressed', String(state.crisisEvery > 0));
   for (const btn of document.querySelectorAll('#nbpPresets button')) {
     btn.setAttribute('aria-pressed', String(parseFloat(btn.dataset.fee) === state.feePct));
   }

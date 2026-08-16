@@ -103,9 +103,10 @@ Year index `k = 0, 1, 2, …` corresponds to calendar years 2027, 2028, …
 
 ## 4. The simulation
 
-Both accounts are advanced one year at a time with the same `r`. The
-contribution is added at the **start** of each year (before growth);
-mid-year contributions are not modelled.
+Both accounts are advanced one year at a time with the same per-year return
+`r(k)` (equal to the constant `r` unless the crash stress test of §4.4 is
+enabled). The contribution is added at the **start** of each year (before
+growth); mid-year contributions are not modelled.
 
 ### 4.1 OKI recursion
 
@@ -169,6 +170,40 @@ year one; values at the 50-year horizon cap are shown as "50+". Stopping at
 the first loss matters: near zero returns the curve can dip early, and the
 convention "last year before the first loss" is what the golden dataset
 pins (e.g. 175 000 zł at 2% → year 2).
+
+### 4.4 Crash stress test (optional overlay)
+
+An opt-in deterministic overlay replaces the return in selected years:
+
+```
+r(k) = −d   if m > 0 and (k + 1) mod m = 0        # years m, 2m, 3m, …
+     = r    otherwise
+```
+
+where `m` = crash frequency in years (`crisisEvery`, 0 = off) and `d` =
+drawdown in a crash year (`crisisDrop`, e.g. 0.30). Design choices:
+
+- **Deterministic, not random.** Crash years are fixed by the year number,
+  so a shared scenario URL reproduces the exact same result and the values
+  can be pinned by golden tests. This is a stress test showing the
+  *direction and size* of the volatility effect, not a Monte Carlo forecast.
+- **Both accounts see the same crash.** The asymmetry is in the levies: the
+  OKI fee is charged on the average asset value even in a loss year, while
+  the Belka tax applies only to realized profit — so crashes generally work
+  against OKI (lower terminal gains shrink the tax OKI avoids, but fees are
+  still paid along the way).
+- **Dividends survive a crash.** The cash payout `y·V` is still made and
+  taxed in a crash year (payouts are steadier than prices); the price return
+  that year is `−d − y`.
+- **Average return falls.** The overlay does not renormalize the good years
+  upward; enabling it lowers the scenario's compound growth by construction.
+- The break-even heatmap ignores the overlay (each column *is* a return
+  level; overlaying crashes would falsify its meaning), just as it ignores
+  contributions and dividends.
+
+With `m = 0` the per-year return is the identical float `r`, and the
+implementation is bit-for-bit equal to the base model — the golden tests
+enforce this.
 
 ---
 

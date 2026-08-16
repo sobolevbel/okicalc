@@ -11,6 +11,8 @@ export const BOUNDS = {
   inflPct: { min: 0, max: 8, step: 0.1 },
   divPct: { min: 0, max: 5, step: 0.1 },
   belkaPct: { min: 0, max: 40, step: 0.5 },
+  crisisEvery: { min: 0, max: 25, step: 1 },
+  crisisDropPct: { min: 0, max: 80, step: 5 },
 };
 
 export const DEFAULT_STATE = Object.freeze({
@@ -24,6 +26,8 @@ export const DEFAULT_STATE = Object.freeze({
   inflPct: 2.5,
   divPct: 0,
   belkaPct: 19,
+  crisisEvery: 0, // stress test off by default
+  crisisDropPct: 30,
 });
 
 export const NBP_PRESETS = [2.0, 3.0, 3.75, 5.0, 6.0];
@@ -50,6 +54,8 @@ export function engineParams(s, n) {
     c: s.monthly * 12,
     y: Math.min(s.divPct, Math.max(s.rPct, 0)) / 100,
     t: s.belkaPct / 100,
+    crisisEvery: Math.round(s.crisisEvery),
+    crisisDrop: s.crisisDropPct / 100,
   };
 }
 
@@ -65,6 +71,8 @@ const URL_KEYS = [
   ['inf', 'inflPct'],
   ['div', 'divPct'],
   ['t', 'belkaPct'],
+  ['ce', 'crisisEvery'],
+  ['cd', 'crisisDropPct'],
 ];
 
 export function encodeState(s) {
@@ -83,6 +91,7 @@ export function decodeState(search) {
   for (const [short, key] of URL_KEYS) {
     if (p.has(short)) s[key] = clamp(parseFloat(p.get(short)), key);
   }
+  s.crisisEvery = Math.round(s.crisisEvery); // whole years only
   if (p.get('y27') === '0') s.use2027 = false;
   return s;
 }

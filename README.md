@@ -8,7 +8,8 @@ with a **regular brokerage account** taxed under the Belka rules.
 **Live:** https://sobolevbel.github.io/okicalc/
 
 - Year-by-year simulation of both accounts (contributions, dividends, limit
-  valorization, transitional 2027 rate, NBP-linked fee-rate presets).
+  valorization, transitional 2027 rate, NBP-linked fee-rate presets), plus an
+  optional deterministic crash stress test (a −d% year every N years).
 - Verdict banner, capital/advantage/taxes charts (hand-rolled SVG),
   interactive break-even heatmap, plain-language methodology with a
   year-by-year breakdown, PDF report via the print dialog.

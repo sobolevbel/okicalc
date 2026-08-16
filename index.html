@@ -178,6 +178,30 @@
             <input type="number" id="num-belkaPct" min="0" max="40" step="0.5" value="19" data-i18n-aria="controls.belka" aria-label="Stawka podatku Belki">
           </div>
         </div>
+        <div class="field">
+          <div class="field-head">
+            <label for="in-crisisEvery" data-i18n="controls.crisisEvery">Krachy rynkowe: częstotliwość</label>
+            <output id="out-crisisEvery" for="in-crisisEvery"></output>
+          </div>
+          <div class="field-row">
+            <input type="range" id="in-crisisEvery" min="0" max="25" step="1" value="0">
+            <input type="number" id="num-crisisEvery" min="0" max="25" step="1" value="0" data-i18n-aria="controls.crisisEvery" aria-label="Krachy rynkowe: częstotliwość">
+          </div>
+          <p class="hint" data-i18n="controls.crisisHint">Test warunków skrajnych: co N-ty rok rynek zamiast rosnąć spada o ustawiony procent. Lata są stałe, nie losowe — udostępniony link odtwarza ten sam wynik. 0 = brak krachów.</p>
+          <div class="presets">
+            <button type="button" id="btnRealism" data-i18n="controls.realism">Dodaj realizmu: krach −30% co 8 lat</button>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-head">
+            <label for="in-crisisDropPct" data-i18n="controls.crisisDrop">Spadek w roku krachu</label>
+            <output id="out-crisisDropPct" for="in-crisisDropPct"></output>
+          </div>
+          <div class="field-row">
+            <input type="range" id="in-crisisDropPct" min="0" max="80" step="5" value="30">
+            <input type="number" id="num-crisisDropPct" min="0" max="80" step="5" value="30" data-i18n-aria="controls.crisisDrop" aria-label="Spadek w roku krachu">
+          </div>
+        </div>
       </div>
     </details>
 
@@ -268,6 +292,7 @@
   <section class="card" aria-labelledby="hExplain">
     <h2 id="hExplain" data-i18n="explain.title">Skąd biorą się te liczby</h2>
     <p id="exIntro"></p>
+    <p id="exCrisis" hidden></p>
     <div class="explain-cols">
       <div class="explain-col">
         <h3><span class="key-dot reg" aria-hidden="true"></span><span data-i18n="explain.regTitle">Zwykłe konto maklerskie</span></h3>
@@ -347,6 +372,7 @@
       <li data-i18n="assumptions.i5"></li>
       <li data-i18n="assumptions.i6"></li>
       <li data-i18n="assumptions.i7"></li>
+      <li data-i18n="assumptions.i8"></li>
     </ul>
     <p class="disclaimer" data-i18n="disclaimer.text"></p>
     <p class="privacy" data-i18n="privacy.note"></p>

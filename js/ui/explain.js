@@ -1,6 +1,6 @@
 // Plain-language methodology with the user's own numbers substituted in,
 // the year-by-year breakdown table, and the print-only parameter block.
-import { t, fmtMoney, fmtSignedMoney, fmtPct, years, currentLang } from '../i18n.js';
+import { t, tp, fmtMoney, fmtSignedMoney, fmtPct, years, currentLang } from '../i18n.js';
 
 export function renderExplain(state, { rows, breakevenYear }) {
   const vars = {
@@ -11,6 +11,12 @@ export function renderExplain(state, { rows, breakevenYear }) {
     c: fmtMoney(state.monthly * 12),
   };
   document.getElementById('exIntro').textContent = t('explain.intro', vars);
+  const crisis = document.getElementById('exCrisis');
+  crisis.hidden = state.crisisEvery === 0;
+  crisis.textContent = state.crisisEvery === 0 ? '' : t('explain.crisis', {
+    every: tp('plural.everyYears', state.crisisEvery),
+    drop: fmtPct(state.crisisDropPct, 0),
+  });
   document.getElementById('exReg').textContent = t('explain.regBody', vars);
   document.getElementById('exOki').textContent = t('explain.okiBody', vars);
   const race = document.getElementById('exRace');
@@ -67,5 +73,8 @@ export function renderPrintParams(state) {
   add(t('controls.inflation'), fmtPct(state.inflPct, 1));
   add(t('controls.dividend'), fmtPct(state.divPct, 1));
   add(t('controls.belka'), fmtPct(state.belkaPct, 1));
+  add(t('controls.crisisEvery'), state.crisisEvery === 0
+    ? t('controls.crisisOff') : tp('plural.everyYears', state.crisisEvery));
+  if (state.crisisEvery > 0) add(t('controls.crisisDrop'), fmtPct(-state.crisisDropPct, 0));
   add(t('print.generated'), new Date().toLocaleDateString(currentLang()));
 }

@@ -17,6 +17,8 @@ export const DEFAULTS = Object.freeze({
   c: 12_000, // annual contribution, zł
   y: 0.0, // dividend yield (cash part of r); 0 = accumulating
   t: 0.19, // Belka tax rate
+  crisisEvery: 0, // stress overlay: every m-th year is a crash (0 = off)
+  crisisDrop: 0.0, // return in a crash year is -crisisDrop instead of r
 });
 
 // Simulate both accounts in one pass over years 1..n.
@@ -25,7 +27,7 @@ export const DEFAULTS = Object.freeze({
 // reference functions, so row k's values equal oki(v0,r,k+1) / reg(v0,r,k+1).
 export function simulate(params) {
   const p = { ...DEFAULTS, ...params };
-  const { v0, r, n, f, f2027, L0, idx, idxFrom, c, y, t } = p;
+  const { v0, r, n, f, f2027, L0, idx, idxFrom, c, y, t, crisisEvery, crisisDrop } = p;
 
   let vOki = v0;
   let vReg = v0;
@@ -35,22 +37,29 @@ export function simulate(params) {
 
   const rows = [];
   for (let k = 0; k < n; k++) {
+    // Stress overlay: every crisisEvery-th year the market returns -crisisDrop
+    // instead of r. Deterministic (fixed year numbers, no randomness) so
+    // scenarios stay reproducible and URL-shareable. With crisisEvery = 0,
+    // rk === r and every result is bit-identical to the base model.
+    const rk = crisisEvery > 0 && (k + 1) % crisisEvery === 0 ? -crisisDrop : r;
+
     // --- OKI: fee on average annual asset value above the (valorized) limit,
     // charged even in loss years. Dividends inside OKI are untaxed and
     // implicitly reinvested (no separate code path).
     const L = L0 * Math.pow(1 + idx, Math.max(0, k - idxFrom + 1));
     const fk = k === 0 ? f2027 : f;
     vOki += c;
-    const fee = fk * Math.max(vOki * Math.pow(1 + r, 0.5) - L, 0);
-    vOki = vOki * (1 + r) - fee;
+    const fee = fk * Math.max(vOki * Math.pow(1 + rk, 0.5) - L, 0);
+    vOki = vOki * (1 + rk) - fee;
     cumFee += fee;
 
     // --- Regular account: dividends taxed yearly, net reinvested (raises the
-    // cost basis); capital gains taxed only on exit.
+    // cost basis); capital gains taxed only on exit. The dividend is still
+    // paid (and taxed) in a crash year — payouts are steadier than prices.
     vReg += c;
     basis += c;
     const div = vReg * y;
-    vReg = vReg * (1 + r - y) + div * (1 - t);
+    vReg = vReg * (1 + rk - y) + div * (1 - t);
     basis += div * (1 - t);
     cumDivTax += div * t;
 

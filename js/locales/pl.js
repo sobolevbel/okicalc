@@ -33,6 +33,11 @@ export default {
   'controls.dividend': 'Stopa dywidendy',
   'controls.dividendHint': 'Wypłaty gotówkowe jako część zwrotu. 0% = fundusz akumulujący.',
   'controls.belka': 'Stawka podatku Belki',
+  'controls.crisisEvery': 'Krachy rynkowe: częstotliwość',
+  'controls.crisisDrop': 'Spadek w roku krachu',
+  'controls.crisisHint': 'Test warunków skrajnych: co N-ty rok rynek zamiast rosnąć spada o ustawiony procent. Lata są stałe, nie losowe — udostępniony link odtwarza ten sam wynik. 0 = brak krachów.',
+  'controls.crisisOff': 'wył.',
+  'controls.realism': 'Dodaj realizmu: krach −30% co 8 lat',
   'controls.reset': 'Przywróć domyślne',
   'controls.share': 'Skopiuj link do scenariusza',
   'controls.shareCopied': 'Link skopiowany!',
@@ -78,12 +83,13 @@ export default {
   'table.cell.never': 'przegrywa od pierwszego roku',
   'table.cell.beyond': 'wygrywa ponad 50 lat',
   'table.cell.ahead': 'OKI na plusie przez {years}',
-  'table.note': 'Tabela zakłada jednorazową wpłatę bez dopłat i dywidend; Twoje ustawienia zaawansowane (stawka, limit, waloryzacja, podatek Belki) są uwzględnione.',
+  'table.note': 'Tabela zakłada jednorazową wpłatę bez dopłat, dywidend i krachów; Twoje ustawienia zaawansowane (stawka, limit, waloryzacja, podatek Belki) są uwzględnione.',
   'table.legendLow': '0 lat',
   'table.legendHigh': '50+',
 
   'explain.title': 'Skąd biorą się te liczby',
   'explain.intro': 'Oba konta są symulowane rok po roku z tą samą rynkową stopą zwrotu — {r} rocznie w Twoim scenariuszu. Jedyna różnica to jak i kiedy państwo pobiera swoją część.',
+  'explain.crisis': 'Twój scenariusz uwzględnia krachy rynkowe: {every} portfel zamiast rosnąć spada o {drop}. Opłata OKI jest pobierana także w tych latach, a podatek Belki dotyczy wyłącznie zysku — krachy zwykle działają więc na niekorzyść OKI.',
   'explain.regTitle': 'Zwykłe konto maklerskie',
   'explain.regBody': 'Twoje pieniądze rosną nietknięte. Podatek płacisz raz — {t} od zysku, przy sprzedaży. Do tego czasu cały niezrealizowany zysk dalej procentuje, co na długim horyzoncie jest dużo warte. (Przy instrumentach dywidendowych podatek jest pobierany też od każdej wypłaty, co roku.)',
   'explain.okiTitle': 'OKI',
@@ -126,6 +132,7 @@ export default {
   'assumptions.i5': 'IKE/IKZE to osobny temat i nie są tu porównywane.',
   'assumptions.i6': 'Wpłaty modelujemy jako jedną płatność na początku roku; średnią roczną wartość aktywów przybliżamy wartością z połowy roku.',
   'assumptions.i7': 'Limit zwolnienia jest zamrożony do 2029 r. i od 2030 r. indeksowany o ustawioną inflację, zgodnie z ustawą.',
+  'assumptions.i8': 'Poza opcjonalnym testem krachów stopa zwrotu jest co roku taka sama. Realne rynki są zmienne; zmienność ma tu znaczenie głównie dlatego, że opłata OKI jest pobierana również w latach stratnych.',
 
   'disclaimer.text': 'Obliczenia oparte na ustawie z 3 lipca 2026 r. (wchodzi w życie 1 stycznia 2027 r.) według stanu wiedzy na dzień budowy. To nie jest porada podatkowa ani inwestycyjna; akty wykonawcze mogą zmienić szczegóły — zwłaszcza definicję średniej wartości aktywów i listę kwalifikujących się instrumentów.',
 
@@ -142,5 +149,6 @@ export default {
   'print.url': 'Wersja interaktywna:',
 
   'plural.years': { one: '{n} rok', few: '{n} lata', many: '{n} lat', other: '{n} roku' },
+  'plural.everyYears': { one: 'co rok', few: 'co {n} lata', many: 'co {n} lat', other: 'co {n} roku' },
   'plural.yearsAfter': { one: 'Po {n} roku', few: 'Po {n} latach', many: 'Po {n} latach', other: 'Po {n} roku' },
 };

@@ -34,6 +34,11 @@ export default {
   'controls.dividend': 'Dividend yield',
   'controls.dividendHint': 'Cash payouts as part of the return. 0% = accumulating fund.',
   'controls.belka': 'Belka tax rate',
+  'controls.crisisEvery': 'Market crashes: frequency',
+  'controls.crisisDrop': 'Drop in a crash year',
+  'controls.crisisHint': 'A stress test: every N-th year the market falls by the set percentage instead of growing. The years are fixed, not random, so a shared link reproduces the same result. 0 = no crashes.',
+  'controls.crisisOff': 'off',
+  'controls.realism': 'Add realism: a −30% crash every 8 years',
   'controls.reset': 'Reset to defaults',
   'controls.share': 'Copy scenario link',
   'controls.shareCopied': 'Link copied!',
@@ -79,12 +84,13 @@ export default {
   'table.cell.never': 'behind from year one',
   'table.cell.beyond': 'ahead beyond 50 years',
   'table.cell.ahead': 'OKI ahead for {years}',
-  'table.note': 'This table assumes a one-off lump sum with no contributions and no dividends; your advanced settings (fee rate, limit, valorization, Belka rate) do apply.',
+  'table.note': 'This table assumes a one-off lump sum with no contributions, dividends or crash years; your advanced settings (fee rate, limit, valorization, Belka rate) do apply.',
   'table.legendLow': '0 years',
   'table.legendHigh': '50+',
 
   'explain.title': 'How the numbers are calculated',
   'explain.intro': 'Both accounts are simulated year by year with the same market return — {r} per year in your scenario. The only difference is how and when the state takes its cut.',
+  'explain.crisis': 'Your scenario includes market crashes: {every} the portfolio falls by {drop} instead of growing. The OKI fee is charged even in those years, while the Belka tax only ever applies to profit — so crashes usually work against OKI.',
   'explain.regTitle': 'Regular brokerage account',
   'explain.regBody': 'Your money grows untouched. Tax is charged once — {t} of the profit, when you sell. Until then the whole unrealized gain keeps compounding, which is worth a lot over long periods. (For dividend-paying instruments the tax is also charged on every payout, every year.)',
   'explain.okiTitle': 'OKI',
@@ -127,6 +133,7 @@ export default {
   'assumptions.i5': 'IKE/IKZE retirement wrappers are a separate topic and are not compared here.',
   'assumptions.i6': 'Contributions are modelled as one payment at the start of each year; the yearly average asset value is approximated by the mid-year value.',
   'assumptions.i7': 'The exemption limit is frozen until 2029 and indexed to your inflation setting from 2030, as the law prescribes.',
+  'assumptions.i8': 'Outside the optional crash stress test the return is the same every year. Real markets zig-zag; volatility matters here mostly because the OKI fee is charged in loss years too.',
 
   'disclaimer.text': 'Calculations follow the act of 3 July 2026 (in force from 1 January 2027) as understood on the build date. This is not tax or investment advice; secondary regulations may change details — especially the definition of average asset value and the list of qualifying instruments.',
 
@@ -143,5 +150,6 @@ export default {
   'print.url': 'Interactive version:',
 
   'plural.years': { one: '{n} year', other: '{n} years' },
+  'plural.everyYears': { one: 'every year', other: 'every {n} years' },
   'plural.yearsAfter': { one: 'After {n} year', other: 'After {n} years' },
 };

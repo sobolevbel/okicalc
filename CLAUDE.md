@@ -44,6 +44,10 @@ with synthetic `PointerEvent`s dispatched in page context.
   (fee computed from pre-growth value, contribution added before growth,
   `(1+r)^0.5` mid-year average, limit exponent `max(0, k − idxFrom + 1)`).
   Golden tests compare exact integers — do not reorder arithmetic.
+- The crash stress test (`crisisEvery`/`crisisDrop`, MODEL.md §4.4) is
+  deterministic (fixed year numbers, never random) and must stay
+  **bit-identical to the base model when off** (a test enforces this).
+  The heatmap deliberately ignores it, like contributions and dividends.
 - `breakeven()` uses strict `>` and **stops at the first losing year** —
   scanning all 50 years breaks golden-table equality (e.g. 175k @ 2% = 2).
 - Golden tests in `tests/engine.test.js` pin the engine to a precomputed

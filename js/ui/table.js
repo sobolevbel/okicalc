@@ -17,10 +17,12 @@ const WHITE_TEXT_FROM = 8; // cells at least this dark get white ink
 // One 50-year simulation per cell; the whole 16×14 grid stays well under 10 ms.
 // A cell is a dead heat (tie) when neither the fee nor any tax ever arises —
 // below the limit at non-positive returns both accounts are bit-identical.
+// The crash stress test is excluded (like contributions and dividends): each
+// column IS a return level, overlaying crashes would falsify its meaning.
 export function computeMatrix(state) {
   const base = engineParams(state, 50);
   return SUMS.map((v0) => RATES.map((r) => {
-    const rows = simulate({ ...base, v0, r: r / 100, c: 0, y: 0, n: 50 });
+    const rows = simulate({ ...base, v0, r: r / 100, c: 0, y: 0, n: 50, crisisEvery: 0 });
     let be = 0;
     for (const row of rows) {
       if (row.oki > row.reg) be = row.year;
