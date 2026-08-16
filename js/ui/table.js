@@ -1,7 +1,7 @@
 // Break-even heatmap: rows = lump sums, columns = annual returns, cell =
 // last year OKI is still ahead. Sequential single-hue ramp (magnitude), the
 // number itself is always printed, so color never carries meaning alone.
-import { breakeven } from '../engine.js';
+import { simulate } from '../engine.js';
 import { engineParams } from '../state.js';
 import { t, fmtMoney, fmtPct, fmtCompact, years } from '../i18n.js';
 
@@ -15,9 +15,19 @@ const RAMP = ['#cde2fb', '#b7d3f6', '#9ec5f4', '#86b6ef', '#6da7ec', '#5598e7',
 const WHITE_TEXT_FROM = 8; // cells at least this dark get white ink
 
 // One 50-year simulation per cell; the whole 16×14 grid stays well under 10 ms.
+// A cell is a dead heat (tie) when neither the fee nor any tax ever arises —
+// below the limit at non-positive returns both accounts are bit-identical.
 export function computeMatrix(state) {
   const base = engineParams(state, 50);
-  return SUMS.map((v0) => RATES.map((r) => breakeven({ ...base, v0, r: r / 100, c: 0, y: 0 }, 50)));
+  return SUMS.map((v0) => RATES.map((r) => {
+    const rows = simulate({ ...base, v0, r: r / 100, c: 0, y: 0, n: 50 });
+    let be = 0;
+    for (const row of rows) {
+      if (row.oki > row.reg) be = row.year;
+      else break;
+    }
+    return { be, tie: rows.every((row) => row.adv === 0) };
+  }));
 }
 
 export function renderHeatTable(wrap, { matrix, state, onSelect }) {
@@ -47,17 +57,25 @@ export function renderHeatTable(wrap, { matrix, state, onSelect }) {
     th.textContent = fmtCompact(sum);
     row.appendChild(th);
     RATES.forEach((rate, j) => {
-      const v = matrix[i][j];
+      const { be: v, tie } = matrix[i][j];
       const td = row.insertCell();
       const btn = document.createElement('button');
       btn.type = 'button';
-      const idx = Math.round((v / 50) * (RAMP.length - 1));
-      btn.style.backgroundColor = RAMP[idx];
-      btn.style.color = idx >= WHITE_TEXT_FROM ? '#ffffff' : '#0b0b0b';
-      btn.textContent = v >= 50 ? '50+' : String(v);
-      const text = v === 0 ? t('table.cell.never')
-        : v >= 50 ? t('table.cell.beyond')
-          : t('table.cell.ahead', { years: years(v) });
+      let text;
+      if (tie) {
+        btn.style.backgroundColor = '#dedcd5'; // neutral, outside the blue ramp
+        btn.style.color = '#0b0b0b';
+        btn.textContent = '=';
+        text = t('table.cell.tie');
+      } else {
+        const idx = Math.round((v / 50) * (RAMP.length - 1));
+        btn.style.backgroundColor = RAMP[idx];
+        btn.style.color = idx >= WHITE_TEXT_FROM ? '#ffffff' : '#0b0b0b';
+        btn.textContent = v >= 50 ? '50+' : String(v);
+        text = v === 0 ? t('table.cell.never')
+          : v >= 50 ? t('table.cell.beyond')
+            : t('table.cell.ahead', { years: years(v) });
+      }
       btn.setAttribute('aria-label', t('table.cellAria', { sum: fmtMoney(sum), rate: fmtPct(rate, 0), text }));
       const selected = state.v0 === sum && state.rPct === rate && state.monthly === 0;
       btn.setAttribute('aria-pressed', String(selected));

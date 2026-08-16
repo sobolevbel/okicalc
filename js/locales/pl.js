@@ -70,10 +70,11 @@ export default {
   'chart.a11yNote': 'Te same dane znajdziesz w tabeli rok po roku poniżej.',
 
   'table.title': 'Jak długo OKI pozostaje na plusie?',
-  'table.subtitle': 'Każda komórka pokazuje ostatni rok, w którym OKI jeszcze wygrywa dla danej kwoty i stopy zwrotu. 0 = przegrywa od pierwszego roku, 50+ = wygrywa ponad 50 lat. Kliknij komórkę, aby załadować ją jako swój scenariusz.',
+  'table.subtitle': 'Każda komórka pokazuje ostatni rok, w którym OKI jeszcze wygrywa dla danej kwoty i stopy zwrotu. 0 = przegrywa od pierwszego roku, „=” = brak różnicy (nie powstaje ani opłata, ani podatek), 50+ = wygrywa ponad 50 lat. Kliknij komórkę, aby załadować ją jako swój scenariusz.',
   'table.corner': 'Kwota, zł',
   'table.aria': 'Lata progu opłacalności wg kwoty i rocznej stopy zwrotu',
   'table.cellAria': '{sum} przy {rate} rocznie: {text}',
+  'table.cell.tie': 'brak różnicy — oba konta dają ten sam wynik',
   'table.cell.never': 'przegrywa od pierwszego roku',
   'table.cell.beyond': 'wygrywa ponad 50 lat',
   'table.cell.ahead': 'OKI na plusie przez {years}',
