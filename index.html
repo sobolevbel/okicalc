@@ -38,6 +38,21 @@
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "PLN" }
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Czym jest OKI?", "acceptedAnswer": { "@type": "Answer", "text": "Osobiste Konto Inwestycyjne to nowy typ rachunku, który rusza 1 stycznia 2027 r. Zyski w ramach konta są zwolnione z podatku Belki; zamiast tego płacisz roczną opłatę od średniej wartości aktywów powyżej limitu zwolnienia." } },
+      { "@type": "Question", "name": "Czy OKI się opłaca?", "acceptedAnswer": { "@type": "Answer", "text": "To zależy od kwoty, stopy zwrotu i horyzontu. Przy niskich zwrotach lub bardzo dużych portfelach roczna opłata potrafi przewyższyć oszczędność na podatku Belki — dlatego powstał ten kalkulator: ustaw swoje liczby i porównaj." } },
+      { "@type": "Question", "name": "Ile wynosi opłata OKI?", "acceptedAnswer": { "@type": "Answer", "text": "W 2027 r. 0,85% rocznie. Od 2028 r. stawka to 19% stopy referencyjnej NBP z 31 października poprzedniego roku, minimum 0,1% — przy stopie 3,75% wychodzi 0,71%. Opłata jest liczona tylko od średniej wartości aktywów ponad limit zwolnienia." } },
+      { "@type": "Question", "name": "Od kiedy będzie można założyć OKI?", "acceptedAnswer": { "@type": "Answer", "text": "Ustawa z 3 lipca 2026 r. została podpisana przez Prezydenta 13 sierpnia 2026 r., a konta ruszą 1 stycznia 2027 r." } },
+      { "@type": "Question", "name": "Jak działa limit 100 000 zł?", "acceptedAnswer": { "@type": "Answer", "text": "Aktywa do średniej rocznej wartości 100 000 zł nie generują opłaty; do tego dochodzi podlimit 25 000 zł na produkty oszczędnościowe (np. lokaty i obligacje oszczędnościowe). Limit jest zamrożony do 2029 r., a od 2030 r. indeksowany o inflację." } },
+      { "@type": "Question", "name": "Czy OKI zastępuje IKE i IKZE?", "acceptedAnswer": { "@type": "Answer", "text": "Nie. IKE i IKZE działają dalej na dotychczasowych zasadach, a OKI jest od nich niezależne. Ten kalkulator porównuje OKI wyłącznie ze zwykłym kontem maklerskim." } },
+      { "@type": "Question", "name": "W co można inwestować w ramach OKI?", "acceptedAnswer": { "@type": "Answer", "text": "Ze zwolnienia korzystają tzw. aktywa kwalifikowane: akcje spółek z kapitałem zakładowym w złotych, obligacje i listy zastawne denominowane w złotych (bez obligacji strukturyzowanych), środki pieniężne w złotych oraz fundusze — w tym ETF-y — których polityka inwestycyjna przewiduje co najmniej 70% takich aktywów. Popularne zagraniczne ETF-y zwykle tego warunku nie spełniają; instrumenty spekulacyjne (kryptowaluty, opcje, CFD) są wyłączone całkowicie. Szczegóły potwierdzą rozporządzenia wykonawcze." } }
+    ]
+  }
+  </script>
   <script>
     // Google Analytics 4 — set your Measurement ID to enable (see README).
     // GA is loaded by js/main.js ONLY after the visitor accepts the cookie
@@ -397,6 +412,27 @@
       </div>
       <p class="hint" data-i18n="explain.formulasNote">Model jest opisany w dokumencie „Model i metodologia”; testy automatyczne przypinają jego dokładne wartości.</p>
     </details>
+  </section>
+
+  <!-- ==================== Law status + news ==================== -->
+  <section class="card" aria-labelledby="hStatus">
+    <h2 id="hStatus" data-i18n="status.title">Status ustawy i aktualności</h2>
+    <p data-i18n="status.body">Ustawa z 3 lipca 2026 r. o osobistych kontach inwestycyjnych została podpisana przez Prezydenta 13 sierpnia 2026 r. i wchodzi w życie 1 stycznia 2027 r. Szczegóły techniczne — m.in. dokładna definicja średniej wartości aktywów i lista kwalifikowanych instrumentów — doprecyzują dopiero rozporządzenia wykonawcze.</p>
+    <p class="status-asof"><span data-i18n="status.asOf">Stan na:</span> <time id="statusAsOf"></time></p>
+    <h3 data-i18n="news.title">Aktualności</h3>
+    <ul class="news-list" id="newsList"></ul>
+  </section>
+
+  <!-- ==================== FAQ ==================== -->
+  <section class="card" aria-labelledby="hFaq">
+    <h2 id="hFaq" data-i18n="faq.title">Częste pytania</h2>
+    <details class="sub"><summary data-i18n="faq.q1">Czym jest OKI?</summary><p data-i18n="faq.a1">Osobiste Konto Inwestycyjne to nowy typ rachunku, który rusza 1 stycznia 2027 r. Zyski w ramach konta są zwolnione z podatku Belki; zamiast tego płacisz roczną opłatę od średniej wartości aktywów powyżej limitu zwolnienia.</p></details>
+    <details class="sub"><summary data-i18n="faq.q2">Czy OKI się opłaca?</summary><p data-i18n="faq.a2">To zależy od kwoty, stopy zwrotu i horyzontu. Przy niskich zwrotach lub bardzo dużych portfelach roczna opłata potrafi przewyższyć oszczędność na podatku Belki — dlatego powstał ten kalkulator: ustaw swoje liczby i porównaj.</p></details>
+    <details class="sub"><summary data-i18n="faq.q3">Ile wynosi opłata OKI?</summary><p data-i18n="faq.a3">W 2027 r. 0,85% rocznie. Od 2028 r. stawka to 19% stopy referencyjnej NBP z 31 października poprzedniego roku, minimum 0,1% — przy stopie 3,75% wychodzi 0,71%. Opłata jest liczona tylko od średniej wartości aktywów ponad limit zwolnienia.</p></details>
+    <details class="sub"><summary data-i18n="faq.q4">Od kiedy będzie można założyć OKI?</summary><p data-i18n="faq.a4">Ustawa z 3 lipca 2026 r. została podpisana przez Prezydenta 13 sierpnia 2026 r., a konta ruszą 1 stycznia 2027 r.</p></details>
+    <details class="sub"><summary data-i18n="faq.q5">Jak działa limit 100 000 zł?</summary><p data-i18n="faq.a5">Aktywa do średniej rocznej wartości 100 000 zł nie generują opłaty; do tego dochodzi podlimit 25 000 zł na produkty oszczędnościowe (np. lokaty i obligacje oszczędnościowe). Limit jest zamrożony do 2029 r., a od 2030 r. indeksowany o inflację.</p></details>
+    <details class="sub"><summary data-i18n="faq.q6">Czy OKI zastępuje IKE i IKZE?</summary><p data-i18n="faq.a6">Nie. IKE i IKZE działają dalej na dotychczasowych zasadach, a OKI jest od nich niezależne. Ten kalkulator porównuje OKI wyłącznie ze zwykłym kontem maklerskim.</p></details>
+    <details class="sub"><summary data-i18n="faq.q7">W co można inwestować w ramach OKI?</summary><p data-i18n="faq.a7">Ze zwolnienia korzystają tzw. aktywa kwalifikowane: akcje spółek z kapitałem zakładowym w złotych, obligacje i listy zastawne denominowane w złotych (bez obligacji strukturyzowanych), środki pieniężne w złotych oraz fundusze — w tym ETF-y — których polityka inwestycyjna przewiduje co najmniej 70% takich aktywów. Popularne zagraniczne ETF-y zwykle tego warunku nie spełniają; instrumenty spekulacyjne (kryptowaluty, opcje, CFD) są wyłączone całkowicie. Szczegóły potwierdzą rozporządzenia wykonawcze.</p></details>
   </section>
 
   <!-- ==================== Assumptions / disclaimer ==================== -->

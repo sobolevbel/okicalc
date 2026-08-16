@@ -10,6 +10,7 @@ import { renderChart } from './ui/chart.js';
 import { computeMatrix, renderHeatTable } from './ui/table.js';
 import { renderSummary } from './ui/summary.js';
 import { renderPayout } from './ui/payout.js';
+import { renderNews } from './ui/news.js';
 import { renderExplain, renderPrintParams } from './ui/explain.js';
 
 let state = decodeState(location.search);
@@ -196,6 +197,7 @@ function onLanguageChange() {
   applyI18n();
   document.title = `${t('app.title')} — OKI`;
   relabelPresets();
+  renderNews(); // dates and item texts are locale-dependent
   renderHeat(true); // cell aria-labels and headers are locale-dependent
   renderAll();
 }
@@ -306,6 +308,7 @@ initConsent();
 applyI18n();
 document.title = `${t('app.title')} — OKI`;
 relabelPresets();
+renderNews();
 recompute();
 renderAll();
 

@@ -40,6 +40,9 @@ checklist for auditing them against reality and updating the code safely.
 | Belka `19%` default | `js/engine.js` DEFAULTS.t, `js/state.js` belkaPct, locale strings (`app.tagline`, `formulas.regExit`, `formulas.regStepNote`; `explain.regBody` uses runtime var), `index.html` description + static formulas rows |
 | Years 2027/2028/2029/2030 | locale strings (`controls.fee`, `controls.inflation`, `assumptions.i7`, `formulas.okiLimit`, `formulas.okiLimitNote`), `index.html`, `CLAUDE.md`, `README.md` |
 | Law date "3 July 2026" | locale `disclaimer.text` (all 5), `README.md` |
+| Law status & milestones | locale `status.body` (all 5) + the same Polish text statically in `index.html`; news items in `js/news.js` (5 translations co-located per item) |
+| "Stan na" date | `STATUS_DATE` in `js/news.js` — bump it every time this skill's audit completes |
+| FAQ facts (fee %, limits, dates, qualifying assets / 70% fund rule) | locale `faq.q1..a7` (all 5) + static Polish `<details>` in `index.html` + the FAQPage JSON-LD in `index.html` — all three PL copies must stay verbatim-identical |
 
 ## 3. Update rules
 
@@ -54,8 +57,11 @@ checklist for auditing them against reality and updating the code safely.
   changed; note the amendment date in the commit message with source URLs.
 - Keep `MODEL.md` in sync: its §2 statutory table, §6 sensitivity table and
   the fee-rate examples must reflect the same facts as the code.
+- New legislative/NBP events become entries in `js/news.js` (one file, all
+  five translations inline) — never new locale keys. Bump `STATUS_DATE`
+  there after every completed audit, even if nothing else changed.
 - After edits: `npm test` (must stay green) and a browser smoke pass
-  (verdict renders, presets relabel, all 5 languages).
+  (verdict renders, presets relabel, news list renders, all 5 languages).
 
 ## 4. Report format
 

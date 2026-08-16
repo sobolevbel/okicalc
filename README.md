@@ -10,9 +10,14 @@ with a **regular brokerage account** taxed under the Belka rules.
 - Year-by-year simulation of both accounts (contributions, dividends, limit
   valorization, transitional 2027 rate, NBP-linked fee-rate presets), plus an
   optional deterministic crash stress test (a −d% year every N years).
+- Payout phase: set a net monthly withdrawal and see how many years each
+  account funds it (OKI keeps paying the fee; each regular-account sale pays
+  Belka on its profit share). Optional "in today's money" display toggle.
 - Verdict banner, capital/advantage/taxes charts (hand-rolled SVG),
   interactive break-even heatmap, plain-language methodology with a
   year-by-year breakdown, PDF report via the print dialog.
+- Law-status box, localized news list (data-driven from `js/news.js`) and an
+  SEO-marked FAQ (FAQPage JSON-LD).
 - Languages: PL / EN / RU / BE / UK, with correct Slavic plural rules and
   locale number formatting. Light/dark themes. Scenario sharing via URL.
 - No build step, no frameworks, no backend: static ES modules.

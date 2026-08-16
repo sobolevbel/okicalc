@@ -29,6 +29,10 @@ with synthetic `PointerEvent`s dispatched in page context.
 - `js/i18n.js` + `js/locales/{pl,en,ru,be,uk}.js` — `en.js` is the canonical
   key set; every locale must define exactly the same keys. Plurals via
   `Intl.PluralRules` (`plural.*` entries hold one/few/many/other forms).
+- `js/news.js` — news items + `STATUS_DATE`, all five translations
+  co-located per item. **Adding a news item = editing only this file**
+  (rendered by `js/ui/news.js`, sorted by date, dates localized via Intl);
+  locale files stay untouched, so key parity never churns.
 - `js/ui/` — controls (paired range+number inputs), chart (hand-rolled SVG),
   table (break-even heatmap; exact dead heats render as '=' with a neutral
   fill, not 0), summary (verdict + tiles), explain (methodology + year table
@@ -47,7 +51,14 @@ with synthetic `PointerEvent`s dispatched in page context.
 - The crash stress test (`crisisEvery`/`crisisDrop`, MODEL.md §4.4) is
   deterministic (fixed year numbers, never random) and must stay
   **bit-identical to the base model when off** (a test enforces this).
-  The heatmap deliberately ignores it, like contributions and dividends.
+  The heatmap deliberately ignores it, like contributions and dividends —
+  and like the payout phase (`payoutYears`, MODEL.md §4.5), which never
+  touches the accumulation loop.
+- The "today's money" toggle (`td`) is a **render-time transform only**
+  (`displayDerived()` in main.js) — never bake deflation into the engine.
+- The FAQ exists in three places that must stay verbatim-identical:
+  `pl.js` `faq.*` keys, the static HTML `<details>` blocks, and the
+  FAQPage JSON-LD in `index.html` (JSON-LD stays Polish-only).
 - `breakeven()` uses strict `>` and **stops at the first losing year** —
   scanning all 50 years breaks golden-table equality (e.g. 175k @ 2% = 2).
 - Golden tests in `tests/engine.test.js` pin the engine to a precomputed
