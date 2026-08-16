@@ -83,6 +83,25 @@ banner (`initConsent`/`loadGa` in `js/main.js`); an empty ID disables both
 the banner and GA. ImgBot is silenced via `.imgbotconfig` (ignores all
 image types) — don't expect image-optimization PRs.
 
+## Locale copy — hard rules
+
+Every batch of new strings has shipped with the same error classes; after
+adding or editing ANY user-facing text, run the `proofread-copy` skill
+(glossary, grammar traps, sync checks). Non-negotiables:
+
+- **Reuse established terms** — the OKI levy is opłata/fee/сбор/збор/збір
+  OKI (never «плата»); "statutory" is установленный законом (never
+  «законодательный»). Grep existing strings before writing new ones.
+- **Never put `{years}`/plural placeholders after a preposition** — they
+  insert nominative forms («после 21 год», "po 20 lat"); rephrase with a
+  parenthetical: «по истечении горизонта ({years})».
+- **PL numerals**: virile «siedmiu maklerów» vs non-virile «siedem domów».
+  **BE**: ў after vowels. **UK**: euphony і/й, з/із. No English metonymy
+  («продажа платит налог» → «при продаже платится налог»).
+- Polish content can live in three verbatim-identical copies (pl.js,
+  static HTML, JSON-LD) — fix all three, then run the parity/sync checks
+  from the skill.
+
 ## i18n / SEO notes
 
 - Static HTML text is Polish and must match `pl.js` strings (crawlable
