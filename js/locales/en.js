@@ -122,7 +122,7 @@ export default {
   'assumptions.i1': 'The OKI fee is deducted from the account’s assets (the law leaves open whether it could be paid from external funds, which would be better for OKI).',
   'assumptions.i2': 'Loss carryforward on the regular account (offsetting future gains for up to 5 years) is not modelled — a small head start for OKI in losing scenarios.',
   'assumptions.i3': 'The 25 000 zł sub-limit for savings products (deposits, savings bonds) is out of scope — the model covers investment assets.',
-  'assumptions.i4': 'Eligibility of foreign instruments (e.g. Irish accumulating ETFs) is still uncertain under the final rules — check per instrument.',
+  'assumptions.i4': 'Not every instrument will qualify for the OKI exemption: the act favours złoty-denominated assets, and the status of foreign ETFs (e.g. the popular Irish accumulating funds) is not settled yet. Check your specific instrument before moving your strategy to OKI.',
   'assumptions.i5': 'IKE/IKZE retirement wrappers are a separate topic and are not compared here.',
   'assumptions.i6': 'Contributions are modelled as one payment at the start of each year; the yearly average asset value is approximated by the mid-year value.',
   'assumptions.i7': 'The exemption limit is frozen until 2029 and indexed to your inflation setting from 2030, as the law prescribes.',

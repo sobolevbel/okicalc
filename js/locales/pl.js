@@ -121,7 +121,7 @@ export default {
   'assumptions.i1': 'Opłata OKI jest potrącana z aktywów na koncie (ustawa nie przesądza, czy można ją płacić ze środków zewnętrznych, co byłoby korzystniejsze dla OKI).',
   'assumptions.i2': 'Nie modelujemy przenoszenia straty na zwykłym koncie (odliczanie od przyszłych zysków do 5 lat) — drobna fora dla OKI w scenariuszach stratnych.',
   'assumptions.i3': 'Podlimit 25 000 zł dla produktów oszczędnościowych (lokaty, obligacje oszczędnościowe) jest poza zakresem — model dotyczy aktywów inwestycyjnych.',
-  'assumptions.i4': 'Kwalifikowalność zagranicznych instrumentów (np. irlandzkich ETF-ów akumulujących) pozostaje niepewna — sprawdzaj dla konkretnego instrumentu.',
+  'assumptions.i4': 'Nie każdy instrument załapie się na ulgę OKI: ustawa preferuje aktywa w złotych, a status zagranicznych ETF-ów (np. popularnych irlandzkich funduszy akumulujących) nie jest jeszcze przesądzony. Zanim przeniesiesz strategię na OKI, sprawdź swój konkretny instrument.',
   'assumptions.i5': 'IKE/IKZE to osobny temat i nie są tu porównywane.',
   'assumptions.i6': 'Wpłaty modelujemy jako jedną płatność na początku roku; średnią roczną wartość aktywów przybliżamy wartością z połowy roku.',
   'assumptions.i7': 'Limit zwolnienia jest zamrożony do 2029 r. i od 2030 r. indeksowany o ustawioną inflację, zgodnie z ustawą.',
