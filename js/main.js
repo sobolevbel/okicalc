@@ -1,5 +1,5 @@
 // Wiring: state → recompute → render. One state object, URL-shareable.
-import { simulate, maxAdvantage } from './engine.js';
+import { simulate, maxAdvantage, payoutYears } from './engine.js';
 import { engineParams, encodeState, decodeState } from './state.js';
 import {
   LANGS, detectLang, setLang, currentLang, t, applyI18n,
@@ -9,6 +9,7 @@ import { initControls, syncControls, relabelPresets } from './ui/controls.js';
 import { renderChart } from './ui/chart.js';
 import { computeMatrix, renderHeatTable } from './ui/table.js';
 import { renderSummary } from './ui/summary.js';
+import { renderPayout } from './ui/payout.js';
 import { renderExplain, renderPrintParams } from './ui/explain.js';
 
 let state = decodeState(location.search);
@@ -23,7 +24,10 @@ function recompute() {
     if (row.oki > row.reg) breakevenYear = row.year;
     else break;
   }
-  derived = { rows, breakevenYear, peak: maxAdvantage(rows) };
+  const payout = state.payoutMonthly > 0
+    ? payoutYears(engineParams(state), state.payoutMonthly * 12)
+    : null;
+  derived = { rows, breakevenYear, peak: maxAdvantage(rows), payout };
 
   // The heatmap only depends on the advanced settings — cache accordingly.
   const key = [state.feePct, state.use2027, state.limit, state.inflPct, state.belkaPct].join('|');
@@ -124,6 +128,7 @@ function renderHeat(force = false) {
 function renderAll() {
   syncControls(state);
   renderSummary(state, derived);
+  renderPayout(state, derived.payout);
   renderCharts();
   renderHeat();
   renderExplain(state, derived);

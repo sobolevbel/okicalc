@@ -2,7 +2,7 @@
 // the year-by-year breakdown table, and the print-only parameter block.
 import { t, tp, fmtMoney, fmtSignedMoney, fmtPct, years, currentLang } from '../i18n.js';
 
-export function renderExplain(state, { rows, breakevenYear }) {
+export function renderExplain(state, { rows, breakevenYear, payout }) {
   const vars = {
     r: fmtPct(state.rPct, 1),
     t: fmtPct(state.belkaPct, 1),
@@ -16,6 +16,15 @@ export function renderExplain(state, { rows, breakevenYear }) {
   crisis.textContent = state.crisisEvery === 0 ? '' : t('explain.crisis', {
     every: tp('plural.everyYears', state.crisisEvery),
     drop: fmtPct(state.crisisDropPct, 0),
+  });
+  const lasts = (n) => (n >= 100 ? t('payout.forever') : years(n));
+  const pay = document.getElementById('exPayout');
+  pay.hidden = state.payoutMonthly === 0 || !payout;
+  pay.textContent = pay.hidden ? '' : t('explain.payout', {
+    years: years(state.horizon),
+    amount: fmtMoney(state.payoutMonthly),
+    oki: lasts(payout.oki),
+    reg: lasts(payout.reg),
   });
   document.getElementById('exReg').textContent = t('explain.regBody', vars);
   document.getElementById('exOki').textContent = t('explain.okiBody', vars);
@@ -76,5 +85,7 @@ export function renderPrintParams(state) {
   add(t('controls.crisisEvery'), state.crisisEvery === 0
     ? t('controls.crisisOff') : tp('plural.everyYears', state.crisisEvery));
   if (state.crisisEvery > 0) add(t('controls.crisisDrop'), fmtPct(-state.crisisDropPct || 0, 0));
+  add(t('payout.monthly'), state.payoutMonthly === 0
+    ? t('payout.off') : t('payout.perMonth', { amount: fmtMoney(state.payoutMonthly) }));
   add(t('print.generated'), new Date().toLocaleDateString(currentLang()));
 }

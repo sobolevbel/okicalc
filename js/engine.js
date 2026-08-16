@@ -72,6 +72,7 @@ export function simulate(params) {
       oki: vOki,
       reg,
       regGross: vReg,
+      basis,
       fee,
       cumFee,
       exitTax,
@@ -105,6 +106,55 @@ export function maxAdvantage(rows) {
     if (best === null || row.adv > best.adv) best = row;
   }
   return best && best.adv > 0 ? best : null;
+}
+
+// Payout phase: after the n accumulation years, withdraw wNet zł net at the
+// start of each year (before growth — mirroring how contributions are added).
+// OKI withdrawals are tax-free; on the regular account each sale realizes the
+// proportional share of the unrealized gain and pays Belka on it right away,
+// so the gross sale G solves G − t·G·gainShare = wNet. Realized losses are
+// not carried forward (same simplification as the accumulation phase).
+// The global year index keeps running, so limit valorization and the crash
+// pattern continue seamlessly across the accumulation/payout boundary.
+// Returns how many FULL years each account funds the withdrawal, capped at
+// maxYears (a returned maxYears means "lasts maxYears or more").
+export function payoutYears(params, wNet, maxYears = 100) {
+  const p = { ...DEFAULTS, ...params };
+  const { r, n, f, L0, idx, idxFrom, y, t, crisisEvery, crisisDrop } = p;
+  const last = simulate(p).at(-1);
+  let vOki = last.oki;
+  let vReg = last.regGross;
+  let basis = last.basis;
+
+  let okiYears = null;
+  let regYears = null;
+  for (let k = 0; k < maxYears && (okiYears === null || regYears === null); k++) {
+    const j = n + k;
+    const rk = crisisEvery > 0 && (j + 1) % crisisEvery === 0 ? -crisisDrop : r;
+    const L = L0 * Math.pow(1 + idx, Math.max(0, j - idxFrom + 1));
+
+    if (okiYears === null) {
+      if (vOki < wNet) okiYears = k;
+      else {
+        vOki -= wNet;
+        const fee = f * Math.max(vOki * Math.pow(1 + rk, 0.5) - L, 0);
+        vOki = vOki * (1 + rk) - fee;
+      }
+    }
+    if (regYears === null) {
+      const gainShare = vReg > 0 ? Math.max(1 - basis / vReg, 0) : 0;
+      const gross = wNet / (1 - t * gainShare);
+      if (vReg < gross) regYears = k;
+      else {
+        basis -= gross * (basis / vReg);
+        vReg -= gross;
+        const div = vReg * y;
+        vReg = vReg * (1 + rk - y) + div * (1 - t);
+        basis += div * (1 - t);
+      }
+    }
+  }
+  return { oki: okiYears ?? maxYears, reg: regYears ?? maxYears };
 }
 
 // Statutory fee rate from an NBP reference rate (both in percent points):

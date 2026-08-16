@@ -13,6 +13,7 @@ export const BOUNDS = {
   belkaPct: { min: 0, max: 40, step: 0.5 },
   crisisEvery: { min: 0, max: 25, step: 1 },
   crisisDropPct: { min: 0, max: 80, step: 5 },
+  payoutMonthly: { min: 0, max: 50_000, step: 500 },
 };
 
 export const DEFAULT_STATE = Object.freeze({
@@ -28,6 +29,7 @@ export const DEFAULT_STATE = Object.freeze({
   belkaPct: 19,
   crisisEvery: 0, // stress test off by default
   crisisDropPct: 30,
+  payoutMonthly: 0, // 0 = sell everything at the horizon (no payout phase)
 });
 
 export const NBP_PRESETS = [2.0, 3.0, 3.75, 5.0, 6.0];
@@ -73,6 +75,7 @@ const URL_KEYS = [
   ['t', 'belkaPct'],
   ['ce', 'crisisEvery'],
   ['cd', 'crisisDropPct'],
+  ['w', 'payoutMonthly'],
 ];
 
 export function encodeState(s) {

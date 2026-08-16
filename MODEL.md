@@ -205,6 +205,58 @@ With `m = 0` the per-year return is the identical float `r`, and the
 implementation is bit-for-bit equal to the base model — the golden tests
 enforce this.
 
+### 4.5 Payout phase (optional)
+
+Instead of the default "sell everything at the horizon", the user can set a
+net monthly withdrawal `w` (annualized `W = 12w`). After the `n` accumulation
+years, contributions stop and each payout year proceeds as follows. The
+global year index `j = n, n+1, …` keeps running, so the exemption-limit
+valorization and the crash pattern continue seamlessly across the boundary.
+
+**OKI** (withdrawals are tax-free; the fee never stops):
+
+```
+V ← V − W                       # start-of-year withdrawal, mirroring how
+                                # contributions are added in accumulation
+fee(j) = f · max(V·(1+r(j))^0.5 − L(j), 0)
+V ← V·(1+r(j)) − fee(j)
+```
+
+**Regular account** (each sale immediately realizes its share of the gain):
+to put `W` net in the investor's pocket, a gross amount `G` is sold. With
+proportional cost-basis allocation, the taxable share of any sale is
+`g = max(1 − B/V, 0)`, so `G − t·G·g = W` gives
+
+```
+G = W / (1 − t·g)
+B ← B − G·(B/V)                 # basis leaves proportionally with the sale
+V ← V − G
+```
+
+followed by the usual growth-and-dividend step (dividends are still paid and
+taxed during payout, raising the basis by the reinvested net amount).
+Realized losses are not carried forward — the same simplification as in the
+accumulation phase (assumption bias: a small head start for OKI in losing
+scenarios).
+
+**Output:** the number of *full* years each account funds the withdrawal —
+a year counts only if the start-of-year balance covers it (`V ≥ W` for OKI,
+`V ≥ G` for the regular account). The count is capped at 100 and rendered as
+"100+" when the portfolio outgrows the withdrawal.
+
+Why this is interesting: the lump-sum exit is the *worst case* for the
+regular account (the whole gain is taxed at once). Under gradual sale the
+still-unrealized gain keeps compounding untaxed, while the OKI fee keeps
+being charged on the remaining assets — so the payout phase shifts the
+comparison toward the regular account, and on large above-limit portfolios
+it can flip the verdict (golden test: 500k default scenario at 12 000 zł/mo
+lasts 39 years on OKI vs 41 on the regular account, while the default 100k
+scenario at 5 000 zł/mo lasts 31 vs 27 the other way).
+
+The break-even heatmap ignores the payout phase, just as it ignores
+contributions, dividends and crashes. With `w = 0` the payout code never
+runs — the accumulation model is untouched.
+
 ---
 
 ## 5. Closed form (analytical cross-check)

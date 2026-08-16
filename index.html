@@ -115,6 +115,38 @@
       </div>
     </div>
 
+    <div class="payout-block">
+      <h3 data-i18n="payout.title">Faza wypłat: na jak długo wystarczy pieniędzy?</h3>
+      <div class="fields">
+        <div class="field">
+          <div class="field-head">
+            <label for="in-payoutMonthly" data-i18n="payout.monthly">Miesięczna wypłata netto po zakończeniu horyzontu</label>
+            <output id="out-payoutMonthly" for="in-payoutMonthly"></output>
+          </div>
+          <div class="field-row">
+            <input type="range" id="in-payoutMonthly" min="0" max="20000" step="500" value="0">
+            <input type="number" id="num-payoutMonthly" min="0" max="50000" step="500" value="0" data-i18n-aria="payout.monthly" aria-label="Miesięczna wypłata netto po zakończeniu horyzontu">
+          </div>
+          <p class="hint" data-i18n="payout.hint">Po zakończeniu horyzontu przestajesz wpłacać i co miesiąc wypłacasz tę kwotę. Wypłaty z OKI są wolne od podatku, ale opłata od pozostałych aktywów nadal jest pobierana; na zwykłym koncie przy każdej sprzedaży płacisz podatek Belki od jej zyskowej części. 0 = bez fazy wypłat (sprzedajesz wszystko na koniec).</p>
+        </div>
+        <div class="payout-result" id="payoutResult" hidden>
+          <p class="payout-verdict" id="payoutVerdict" aria-live="polite"></p>
+          <div class="payout-bars" aria-hidden="true">
+            <div class="payout-bar-row">
+              <span class="payout-bar-name"><span class="key-dot oki"></span><span data-i18n="chart.series.oki">OKI</span></span>
+              <div class="payout-bar"><div class="payout-bar-fill oki" id="payoutBar-oki"></div></div>
+              <span class="payout-bar-years" id="payoutYears-oki"></span>
+            </div>
+            <div class="payout-bar-row">
+              <span class="payout-bar-name"><span class="key-dot reg"></span><span data-i18n="chart.series.reg">Zwykłe konto</span></span>
+              <div class="payout-bar"><div class="payout-bar-fill reg" id="payoutBar-reg"></div></div>
+              <span class="payout-bar-years" id="payoutYears-reg"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <details class="advanced">
       <summary data-i18n="controls.advanced">Ustawienia zaawansowane</summary>
       <div class="fields">
@@ -293,6 +325,7 @@
     <h2 id="hExplain" data-i18n="explain.title">Skąd biorą się te liczby</h2>
     <p id="exIntro"></p>
     <p id="exCrisis" hidden></p>
+    <p id="exPayout" hidden></p>
     <div class="explain-cols">
       <div class="explain-col">
         <h3><span class="key-dot reg" aria-hidden="true"></span><span data-i18n="explain.regTitle">Zwykłe konto maklerskie</span></h3>
@@ -373,6 +406,7 @@
       <li data-i18n="assumptions.i6"></li>
       <li data-i18n="assumptions.i7"></li>
       <li data-i18n="assumptions.i8"></li>
+      <li data-i18n="assumptions.i9"></li>
     </ul>
     <p class="disclaimer" data-i18n="disclaimer.text"></p>
     <p class="privacy" data-i18n="privacy.note"></p>

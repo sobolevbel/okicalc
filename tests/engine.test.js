@@ -4,7 +4,7 @@
 // Run with: node --test tests/
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { simulate, breakeven, feeRateFromNbp } from '../js/engine.js';
+import { simulate, breakeven, feeRateFromNbp, payoutYears } from '../js/engine.js';
 
 // Golden baseline: lump sum, accumulating instrument, constant 0.85% fee,
 // fixed 100k limit, no contributions.
@@ -192,4 +192,32 @@ test('crashes with dividends: payout still made and taxed in a crash year', () =
   assert.equal(Math.round(rows.at(-1).reg), 339_836);
   assert.equal(breakeven(p, 50), 23);
   assert.ok(rows[4].cumDivTax > rows[3].cumDivTax); // year 5 is a crash year
+});
+
+// --- payout phase (payoutYears) ---
+// Golden values precomputed with an independent reference implementation
+// (withdraw at the start of each year, proportional cost basis on regular-
+// account sales, no loss carryforward, valorization/crashes keep running).
+test('payout, engine defaults, 5000 zl/mc: OKI outlasts the regular account', () => {
+  // OKI: no tax on withdrawals, fee only on assets above the limit;
+  // regular: every sale pays Belka on its profit share (~63% gain here).
+  assert.deepEqual(payoutYears({}, 60_000), { oki: 31, reg: 27 });
+});
+
+test('payout, large portfolio, 12000 zl/mc: the regular account outlasts OKI', () => {
+  // The fee on a big above-limit portfolio outweighs the per-sale Belka.
+  assert.deepEqual(payoutYears({ v0: 500_000 }, 144_000), { oki: 39, reg: 41 });
+});
+
+test('payout with crashes: crashes keep hurting OKI in the payout phase too', () => {
+  const p = { v0: 500_000, crisisEvery: 8, crisisDrop: 0.30 };
+  assert.deepEqual(payoutYears(p, 60_000), { oki: 17, reg: 19 });
+});
+
+test('payout with dividends: yearly dividend tax drags the regular account', () => {
+  assert.deepEqual(payoutYears({ v0: 500_000, y: 0.02 }, 144_000), { oki: 39, reg: 32 });
+});
+
+test('sustainable payout is capped at 100 years', () => {
+  assert.deepEqual(payoutYears({}, 36_000), { oki: 100, reg: 100 });
 });

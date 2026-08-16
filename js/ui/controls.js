@@ -5,7 +5,7 @@ import { feeRateFromNbp } from '../engine.js';
 import { t, tp, fmtMoney, fmtPct, years, fmtNumber } from '../i18n.js';
 
 const KEYS = ['v0', 'monthly', 'rPct', 'horizon', 'feePct', 'limit', 'inflPct', 'divPct', 'belkaPct',
-  'crisisEvery', 'crisisDropPct'];
+  'crisisEvery', 'crisisDropPct', 'payoutMonthly'];
 
 const FORMAT = {
   v0: (v) => fmtMoney(v),
@@ -19,6 +19,7 @@ const FORMAT = {
   horizon: (v) => years(v),
   crisisEvery: (v) => (v === 0 ? t('controls.crisisOff') : tp('plural.everyYears', v)),
   crisisDropPct: (v) => fmtPct(-v || 0, 0), // negative — it is a drawdown ("-0%" avoided)
+  payoutMonthly: (v) => (v === 0 ? t('payout.off') : t('payout.perMonth', { amount: fmtMoney(v) })),
 };
 
 export function initControls(update) {
