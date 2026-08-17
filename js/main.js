@@ -2,7 +2,7 @@
 import { simulate, simulateHybrid, maxAdvantage, payoutYears } from './engine.js';
 import { engineParams, encodeState, decodeState } from './state.js';
 import {
-  LANGS, detectLang, setLang, currentLang, t, applyI18n,
+  LANGS, storedLang, setLang, currentLang, t, applyI18n,
   fmtMoney, fmtSignedMoney, fmtSignedPct, fmtCompact,
 } from './i18n.js';
 import { initControls, syncControls, relabelPresets } from './ui/controls.js';
@@ -195,7 +195,7 @@ function update(patch) {
 /* ---------------- language ---------------- */
 function initLanguage() {
   const urlLang = new URLSearchParams(location.search).get('lang');
-  setLang(LANGS.some((l) => l.code === urlLang) ? urlLang : detectLang(), { persist: Boolean(urlLang) });
+  setLang(LANGS.some((l) => l.code === urlLang) ? urlLang : storedLang(), { persist: Boolean(urlLang) });
 
   const sel = document.getElementById('selLang');
   for (const { code, label } of LANGS) {

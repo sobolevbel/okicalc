@@ -5,7 +5,7 @@ Inwestycyjne** (OKI, in force from 2027-01-01: no 19% Belka capital-gains tax,
 instead an annual fee on average asset value above a 100 000 zł exemption)
 with a **regular brokerage account** taxed under the Belka rules.
 
-**Live:** https://sobolevbel.github.io/okicalc/
+**Live:** https://okicalc.pl/
 
 - Year-by-year simulation of both accounts (contributions, dividends, limit
   valorization, transitional 2027 rate, NBP-linked fee-rate presets), plus an

@@ -17,28 +17,30 @@ export const LANGS = [
 ];
 
 const STORAGE_KEY = 'okicalc:lang';
-let lang = 'en';
-let pluralRules = new Intl.PluralRules('en');
+const DEFAULT_LANG = 'pl';
+let lang = DEFAULT_LANG;
+let pluralRules = new Intl.PluralRules(DEFAULT_LANG);
 const formatters = new Map();
 
 export function currentLang() {
   return lang;
 }
 
-export function detectLang() {
+// Language for a URL without ?lang: a returning visitor's own choice, else
+// Polish. Deliberately does NOT sniff navigator.languages — the canonical URL
+// must render the same Polish content its <title>, meta description and
+// <html lang="pl"> promise, or crawlers index it as an English page. Other
+// languages are reachable via ?lang=xx (hreflang) and the selector.
+export function storedLang() {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved && LOCALES[saved]) return saved;
   } catch { /* storage may be unavailable */ }
-  for (const cand of navigator.languages || [navigator.language || 'en']) {
-    const base = String(cand).toLowerCase().split('-')[0];
-    if (LOCALES[base]) return base;
-  }
-  return 'en';
+  return DEFAULT_LANG;
 }
 
 export function setLang(code, { persist = true } = {}) {
-  if (!LOCALES[code]) code = 'en';
+  if (!LOCALES[code]) code = DEFAULT_LANG;
   lang = code;
   pluralRules = new Intl.PluralRules(code);
   formatters.clear();

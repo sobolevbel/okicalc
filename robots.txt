@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sobolevbel.github.io/okicalc/sitemap.xml
+Sitemap: https://okicalc.pl/sitemap.xml

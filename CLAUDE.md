@@ -3,7 +3,7 @@
 Client-side calculator comparing Poland's OKI (Osobiste Konto Inwestycyjne,
 from 2027: annual fee on average asset value above an exemption limit, no
 Belka tax) vs a regular brokerage account (19% Belka on realized gains and
-dividends). Live: https://sobolevbel.github.io/okicalc/
+dividends). Live: https://okicalc.pl/
 
 Static site: no build step, no frameworks, no backend. ES modules served as-is.
 
@@ -78,8 +78,17 @@ with synthetic `PointerEvent`s dispatched in page context.
 
 GitHub Pages, "Deploy from a branch" → `main` / root, repo
 `sobolevbel/okicalc` (personal account; `gh auth switch --user sobolevbel`
-before pushing). All paths are relative (site lives under `/okicalc/`).
+before pushing). All paths are relative, so the site works at any base.
 CI: `.github/workflows/test.yml` runs `node --test` on push/PR.
+
+Custom domain: apex `okicalc.pl` (registrar+DNS: OVH). The `CNAME` file in the
+repo root is what GitHub reads — **deleting it unsets the domain**. Apex needs
+four A records to `185.199.108–111.153` (plus optional AAAA
+`2606:50c0:8000–8003::153`); `www` is a CNAME to `sobolevbel.github.io`.
+GitHub then 301-redirects both `sobolevbel.github.io/okicalc/` and `www` to the
+apex — that redirect is why absolute URLs (canonical, hreflang, og:url,
+`sitemap.xml`, `robots.txt`) must all point at `https://okicalc.pl/` and never
+at the old github.io path.
 
 Google Analytics: enabled — `window.GA_MEASUREMENT_ID = 'G-R81XBHG17N'` in
 `index.html`. GA loads only after the visitor accepts the localized cookie

@@ -1,7 +1,7 @@
 # Model & Methodology
 
 This document specifies, in full detail, the financial model behind the
-calculator at https://sobolevbel.github.io/okicalc/ — what is being compared,
+calculator at https://okicalc.pl/ — what is being compared,
 the exact year-by-year recursions, every assumption and its direction of
 bias, the analytical cross-checks, and how the implementation is validated.
 
