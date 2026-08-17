@@ -1,6 +1,9 @@
 // English — canonical key set. Every other locale must define exactly these keys.
 export default {
   'app.title': 'OKI vs regular brokerage account',
+  // Browser/search-result title. Leads with the phrase people search for; the
+  // pl value must stay verbatim identical to <title> and og:title in index.html.
+  'app.docTitle': 'OKI calculator — OKI vs regular brokerage account',
   'app.tagline': 'Which leaves you with more money: the new Personal Investment Account (OKI, from 2027) or a regular brokerage account with the 19% Belka tax? Everything is calculated in your browser.',
   'lang.label': 'Language',
   'theme.label': 'Colour theme',

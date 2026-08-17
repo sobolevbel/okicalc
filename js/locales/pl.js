@@ -1,5 +1,6 @@
 export default {
   'app.title': 'OKI kontra zwykłe konto maklerskie',
+  'app.docTitle': 'Kalkulator OKI — OKI kontra zwykłe konto maklerskie',
   'app.tagline': 'Co zostawi Ci więcej pieniędzy: nowe Osobiste Konto Inwestycyjne (OKI, od 2027 r.) czy zwykłe konto maklerskie z 19-procentowym podatkiem Belki? Wszystko liczy się w Twojej przeglądarce.',
   'lang.label': 'Język',
   'theme.label': 'Motyw kolorystyczny',

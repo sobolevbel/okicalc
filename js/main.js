@@ -221,7 +221,7 @@ function initLanguage() {
 
 function onLanguageChange() {
   applyI18n();
-  document.title = `${t('app.title')} — OKI`;
+  document.title = t('app.docTitle');
   relabelPresets();
   renderNews(); // dates and item texts are locale-dependent
   renderHeat(true); // cell aria-labels and headers are locale-dependent
@@ -332,7 +332,7 @@ initControls(update);
 initActions();
 initConsent();
 applyI18n();
-document.title = `${t('app.title')} — OKI`;
+document.title = t('app.docTitle');
 relabelPresets();
 renderNews();
 recompute();
