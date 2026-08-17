@@ -121,5 +121,14 @@ adding or editing ANY user-facing text, run the `proofread-copy` skill
   content; `applyI18n()` re-stamps at boot).
 - `?lang=xx` is honored on load (hreflang links point there); the chosen
   language persists in localStorage, never in scenario URLs.
+- **Never restore silent language autodetection at boot.** A URL without
+  `?lang` renders Polish (`storedLang()` — a stored choice still wins);
+  sniffing `navigator.languages` there once cost us the search snippet, because
+  Googlebot is `en-US`, `main.js` rebuilt `document.title` from the English
+  locale, and Google indexed that English title under the Polish canonical URL.
+  Non-Polish visitors are *offered* their language by `js/ui/langbanner.js`
+  instead — its strings are co-located in that file, like `js/news.js`, because
+  the banner must speak the language it offers while `t()` only reads the
+  current one. Suppressed by `?lang`, by a stored choice, or by dismissal.
 - SEO surface: title/description/OG/JSON-LD in `index.html`, `sitemap.xml`,
   `robots.txt`, `assets/og.png` (1200×630).

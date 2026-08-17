@@ -11,6 +11,7 @@ import { computeMatrix, renderHeatTable } from './ui/table.js';
 import { renderSummary } from './ui/summary.js';
 import { renderPayout } from './ui/payout.js';
 import { renderNews } from './ui/news.js';
+import { initLangBanner } from './ui/langbanner.js';
 import { renderExplain, renderPrintParams } from './ui/explain.js';
 
 let state = decodeState(location.search);
@@ -207,6 +208,13 @@ function initLanguage() {
   sel.value = currentLang();
   sel.addEventListener('change', () => {
     setLang(sel.value);
+    onLanguageChange();
+  });
+
+  // Offer — never impose — the browser's language; see js/ui/langbanner.js.
+  initLangBanner((code) => {
+    sel.value = code;
+    setLang(code);
     onLanguageChange();
   });
 }
