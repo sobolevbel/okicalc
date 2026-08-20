@@ -23,7 +23,7 @@ const FORMAT = {
   payoutMonthly: fmtPayoutSetting,
 };
 
-export function initControls(update) {
+export function initControls(update, track = () => {}) {
   for (const key of KEYS) {
     const range = document.getElementById(`in-${key}`);
     const num = document.getElementById(`num-${key}`);
@@ -54,10 +54,14 @@ export function initControls(update) {
   // turns the stress test off (the sliders stay for fine-tuning).
   document.getElementById('btnRealism').addEventListener('click', () => {
     const active = (parseFloat(document.getElementById('in-crisisEvery').value) || 0) > 0;
+    track('ui/realism');
     update(active ? { crisisEvery: 0 } : { crisisEvery: 8, crisisDropPct: 30 });
   });
 
-  document.getElementById('btnReset').addEventListener('click', () => update({ ...DEFAULT_STATE }));
+  document.getElementById('btnReset').addEventListener('click', () => {
+    track('ui/reset');
+    update({ ...DEFAULT_STATE });
+  });
 }
 
 // Preset labels are locale-dependent ("NBP 3,75% → 0,71%") — refresh on language switch.

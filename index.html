@@ -66,11 +66,21 @@
   }
   </script>
   <script>
-    // Google Analytics 4 — set your Measurement ID to enable (see README).
-    // GA is loaded by js/main.js ONLY after the visitor accepts the cookie
-    // banner; with an empty ID neither the banner nor GA ever appears.
-    window.GA_MEASUREMENT_ID = window.GA_MEASUREMENT_ID || 'G-R81XBHG17N';
+    // GoatCounter — cookieless, anonymous analytics (no consent banner
+    // needed: nothing is stored on the visitor's device). Landing pageview
+    // paths are normalized so scenario/lang query strings don't fragment
+    // the dashboard; arrivals via shared links stay visible as "/?scenario"
+    // and "/?lang". Feature-usage events are sent by track() in js/main.js.
+    window.goatcounter = {
+      path: () => {
+        const q = new URLSearchParams(location.search);
+        const hasLang = q.has('lang');
+        q.delete('lang');
+        return location.pathname + ([...q.keys()].length ? '?scenario' : hasLang ? '?lang' : '');
+      },
+    };
   </script>
+  <script data-goatcounter="https://sobolevbel.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
   <script type="module" src="./js/main.js"></script>
 </head>
 <body>

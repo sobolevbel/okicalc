@@ -41,13 +41,13 @@ curves, sensitivity tables and an analytical closed-form cross-check.
 
 GitHub Actions runs the test suite on every push and pull request.
 
-## Google Analytics
+## Analytics
 
-Analytics is enabled: the GA4 Measurement ID lives in `index.html`
-(`window.GA_MEASUREMENT_ID`). A localized accept/decline cookie banner
-gates it — GA loads only after the visitor accepts (GDPR/ePrivacy), and the
-choice is remembered in localStorage. Set the ID to an empty string to
-disable both the banner and GA; replace it with your own ID when forking.
+GoatCounter (cookieless, anonymous — nothing is stored on the visitor's
+device, so no consent banner is needed). The script tag and site code live
+in `index.html`; feature-usage events are sent by `track()` in
+`js/main.js` and record only *which* control was touched, never its value.
+Remove the script tag (or swap in your own site code) when forking.
 
 ## Deployment
 

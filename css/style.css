@@ -409,26 +409,6 @@ td.neg { color: var(--c-neg); }
 }
 .lang-banner .lang-dismiss:hover { color: var(--ink); }
 
-/* ============ Cookie consent banner ============ */
-.consent-banner {
-  position: fixed; left: 16px; right: 16px; bottom: 16px;
-  margin-inline: auto; max-width: 560px; z-index: 50;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
-  padding: 16px; display: flex; flex-direction: column; gap: 12px;
-}
-.consent-banner p { margin: 0; font-size: 0.88rem; color: var(--ink-2); }
-.consent-actions { display: flex; gap: 10px; }
-.consent-actions button {
-  font: inherit; cursor: pointer; min-height: 44px;
-  border-radius: 8px; padding: 8px 18px;
-  background: var(--surface); color: var(--ink-2); border: 1px solid var(--border);
-}
-.consent-actions button:hover { background: var(--wash); color: var(--ink); }
-.consent-actions button.primary {
-  background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600;
-}
-
 /* ============ Print: the PDF report ============ */
 .print-only { display: none; }
 @media print {

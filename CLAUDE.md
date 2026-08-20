@@ -90,11 +90,18 @@ apex — that redirect is why absolute URLs (canonical, hreflang, og:url,
 `sitemap.xml`, `robots.txt`) must all point at `https://okicalc.pl/` and never
 at the old github.io path.
 
-Google Analytics: enabled — `window.GA_MEASUREMENT_ID = 'G-R81XBHG17N'` in
-`index.html`. GA loads only after the visitor accepts the localized cookie
-banner (`initConsent`/`loadGa` in `js/main.js`); an empty ID disables both
-the banner and GA. ImgBot is silenced via `.imgbotconfig` (ignores all
-image types) — don't expect image-optimization PRs.
+Analytics: GoatCounter, cookieless — the GA4 + cookie-banner setup was
+removed in Aug 2026. Script tag in `index.html` (site code `sobolevbel`,
+private dashboard https://sobolevbel.goatcounter.com/); landing paths are
+normalized to `/`, `/?scenario`, `/?lang` so query strings don't fragment
+the dashboard. Feature events go through `track()` in `js/main.js`:
+`setting/<key>` fires automatically on single-key state patches, `ui/*` at
+explicit call sites; each path at most once per page load, and **never a
+control's value** — the privacy note promises nothing typed leaves the
+browser. No consent banner: nothing is stored on the visitor's device
+(verified empirically; keep it that way when touching analytics). ImgBot
+is silenced via `.imgbotconfig` (ignores all image types) — don't expect
+image-optimization PRs.
 
 ## Locale copy — hard rules
 

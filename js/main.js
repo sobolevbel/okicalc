@@ -166,7 +166,10 @@ function renderHeat(force = false) {
   renderHeatTable(document.getElementById('heatWrap'), {
     matrix,
     state,
-    onSelect: ({ v0, rPct }) => update({ v0, rPct, monthly: 0, divPct: 0 }),
+    onSelect: ({ v0, rPct }) => {
+      track('ui/heatmap-select');
+      update({ v0, rPct, monthly: 0, divPct: 0 });
+    },
   });
 }
 
@@ -180,6 +183,20 @@ function renderAll() {
   renderExplain(state, disp);
 }
 
+/* ---------------- analytics (GoatCounter, cookieless) ---------------- */
+// Feature-usage events. Only WHICH feature was touched is ever sent, never
+// a control's value — the privacy note promises that nothing the visitor
+// types leaves the browser. Each path fires at most once per page load, so
+// dashboard counts read as "visits that used the feature", not raw clicks.
+// The counter script is async and skips localhost; missing it drops the
+// event silently (optional chaining), which is fine.
+const trackedPaths = new Set();
+function track(path) {
+  if (trackedPaths.has(path)) return;
+  trackedPaths.add(path);
+  window.goatcounter?.count?.({ path, event: true });
+}
+
 /* ---------------- state updates + URL sync ---------------- */
 let urlTimer = 0;
 function scheduleUrlSync() {
@@ -191,6 +208,10 @@ function scheduleUrlSync() {
 }
 
 function update(patch) {
+  // A single-key patch is an individual control being used; bulk patches
+  // (reset, heatmap select, realism preset) are tracked at their source.
+  const keys = Object.keys(patch);
+  if (keys.length === 1) track(`setting/${keys[0]}`);
   state = { ...state, ...patch };
   recompute();
   renderAll();
@@ -211,12 +232,14 @@ function initLanguage() {
   }
   sel.value = currentLang();
   sel.addEventListener('change', () => {
+    track(`ui/lang-${sel.value}`);
     setLang(sel.value);
     onLanguageChange();
   });
 
   // Offer — never impose — the browser's language; see js/ui/langbanner.js.
   initLangBanner((code) => {
+    track(`ui/langbanner-${code}`);
     sel.value = code;
     setLang(code);
     onLanguageChange();
@@ -247,59 +270,10 @@ function initTheme() {
   document.getElementById('themeSeg').addEventListener('click', (ev) => {
     const btn = ev.target.closest('button[data-theme-val]');
     if (!btn) return;
+    track(`ui/theme-${btn.dataset.themeVal}`);
     apply(btn.dataset.themeVal);
     try { localStorage.setItem('okicalc:theme', btn.dataset.themeVal); } catch { /* ignore */ }
   });
-}
-
-/* ---------------- cookie consent + Google Analytics ---------------- */
-// GA loads ONLY after explicit consent; with no measurement ID neither the
-// banner nor GA ever appears. Choice is remembered on the device.
-function loadGa(id) {
-  const s = document.createElement('script');
-  s.async = true;
-  s.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(id)}`;
-  document.head.appendChild(s);
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = function gtag() { window.dataLayer.push(arguments); };
-  window.gtag('js', new Date());
-  window.gtag('config', id, { anonymize_ip: true });
-}
-
-function initConsent() {
-  const id = window.GA_MEASUREMENT_ID;
-  if (!id) return;
-  let stored = null;
-  try { stored = localStorage.getItem('okicalc:consent'); } catch { /* ignore */ }
-  if (stored === 'granted') { loadGa(id); return; }
-  if (stored === 'denied') return;
-
-  const bar = document.createElement('div');
-  bar.className = 'consent-banner no-print';
-  bar.setAttribute('role', 'region');
-  bar.setAttribute('aria-label', 'Cookies');
-  const text = document.createElement('p');
-  text.dataset.i18n = 'consent.text';
-  const actions = document.createElement('div');
-  actions.className = 'consent-actions';
-  const choose = (value) => {
-    try { localStorage.setItem('okicalc:consent', value); } catch { /* ignore */ }
-    bar.remove();
-    if (value === 'granted') loadGa(id);
-  };
-  const accept = document.createElement('button');
-  accept.type = 'button';
-  accept.className = 'primary';
-  accept.dataset.i18n = 'consent.accept';
-  accept.addEventListener('click', () => choose('granted'));
-  const decline = document.createElement('button');
-  decline.type = 'button';
-  decline.dataset.i18n = 'consent.decline';
-  decline.addEventListener('click', () => choose('denied'));
-  actions.append(accept, decline);
-  bar.append(text, actions);
-  document.body.appendChild(bar);
-  applyI18n(bar); // banner survives language switches via data-i18n
 }
 
 /* ---------------- actions ---------------- */
@@ -317,24 +291,34 @@ function initActions() {
     }
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => { toast.textContent = ''; }, 3000);
-    window.gtag?.('event', 'share_scenario');
+    track('ui/share');
   });
 
   document.getElementById('btnPdf').addEventListener('click', () => {
     document.getElementById('detYbreak').open = true;
     renderPrintParams(state);
-    window.gtag?.('event', 'pdf_report');
+    track('ui/pdf');
     window.print();
   });
   window.addEventListener('beforeprint', () => renderPrintParams(state));
+
+  // Section curiosity: which collapsed panels get opened at all. The toggle
+  // event doesn't bubble, so listen in the capture phase on the containers.
+  const onOpen = (selector, path) => {
+    document.querySelector(selector)?.addEventListener('toggle', (ev) => {
+      if (ev.target.open) track(path);
+    }, true);
+  };
+  onOpen('details.advanced', 'ui/advanced-open');
+  onOpen('section.faq', 'ui/faq-open');
+  onOpen('section[aria-labelledby="hExplain"]', 'ui/explain-open');
 }
 
 /* ---------------- boot ---------------- */
 initLanguage();
 initTheme();
-initControls(update);
+initControls(update, track);
 initActions();
-initConsent();
 applyI18n();
 document.title = t('app.docTitle');
 relabelPresets();
