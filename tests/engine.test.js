@@ -286,3 +286,18 @@ test('URL codec round-trips w and td keys', async () => {
   assert.deepEqual(decodeState(`?${q}`), s);
   assert.equal(encodeState({ ...DEFAULT_STATE }).toString(), '');
 });
+
+// --- "limit already used": a state-level mapping to L0 = 0, engine untouched ---
+test('limitUsed maps to a zero engine limit and round-trips as lu', async () => {
+  const { encodeState, decodeState, engineParams, DEFAULT_STATE } = await import('../js/state.js');
+  const s = { ...DEFAULT_STATE, limitUsed: true };
+  assert.equal(engineParams(s).L0, 0);
+  assert.equal(engineParams({ ...DEFAULT_STATE }).L0, 100_000);
+  const q = encodeState(s).toString();
+  assert.equal(q, 'lu=1');
+  assert.deepEqual(decodeState(`?${q}`), s);
+  // The simulated comparison must equal an explicit zero-limit scenario.
+  const rows = simulate(engineParams(s, 30));
+  const zero = simulate({ ...engineParams({ ...DEFAULT_STATE }, 30), L0: 0 });
+  rows.forEach((row, i) => assert.equal(row.adv, zero[i].adv));
+});

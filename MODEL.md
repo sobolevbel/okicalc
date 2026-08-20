@@ -99,6 +99,13 @@ Fee-rate examples under the statutory formula:
 Year index `k = 0, 1, 2, …` corresponds to calendar years 2027, 2028, …
 (the account is assumed opened at the start of 2027).
 
+The "limit already used by earlier investments" toggle models the marginal
+question of an investor whose existing OKI assets permanently occupy the
+whole exemption: new money then pays the fee from the first złoty. It is a
+pure UI mapping to `L0 = 0` (js/state.js) — the engine is unchanged — and
+the hybrid strategy of §4.6, which degenerates to the pure regular account
+at a zero limit, is hidden while the toggle is on.
+
 ---
 
 ## 4. The simulation

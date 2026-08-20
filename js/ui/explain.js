@@ -8,10 +8,15 @@ export function renderExplain(state, { rows, hybrid, overflowYear, breakevenYear
     r: fmtPct(state.rPct, 1),
     t: fmtPct(state.belkaPct, 1),
     fee: fmtPct(state.feePct, 2),
-    limit: fmtMoney(state.limit),
+    // "Limit already used" means the fee effectively starts at zero — the
+    // substituted texts must show the limit the computation actually used.
+    limit: fmtMoney(state.limitUsed ? 0 : state.limit),
     c: fmtMoney(state.monthly * 12),
   };
   document.getElementById('exIntro').textContent = t('explain.intro', vars);
+  const limUsed = document.getElementById('exLimitUsed');
+  limUsed.hidden = !state.limitUsed;
+  limUsed.textContent = state.limitUsed ? t('explain.limitUsed') : '';
   const crisis = document.getElementById('exCrisis');
   crisis.hidden = state.crisisEvery === 0;
   crisis.textContent = state.crisisEvery === 0 ? '' : t('explain.crisis', {
@@ -92,6 +97,7 @@ export function renderPrintParams(state) {
   add(t('controls.fee'), fmtPct(state.feePct, 2));
   add(t('controls.use2027'), state.use2027 ? '✓' : '—');
   add(t('controls.limit'), fmtMoney(state.limit));
+  add(t('controls.limitUsed'), state.limitUsed ? '✓' : '—');
   add(t('controls.inflation'), fmtPct(state.inflPct, 1));
   add(t('controls.todayMoney'), state.todayMoney ? '✓' : '—');
   add(t('controls.dividend'), fmtPct(state.divPct, 1));

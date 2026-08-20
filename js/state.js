@@ -24,6 +24,7 @@ export const DEFAULT_STATE = Object.freeze({
   feePct: feeRateFromNbp(3.75), // 0.71
   use2027: true,
   limit: 100_000,
+  limitUsed: false, // limit already consumed by earlier OKI assets → effective limit 0
   inflPct: 2.5,
   divPct: 0,
   belkaPct: 19,
@@ -51,7 +52,10 @@ export function engineParams(s, n) {
     n: n ?? s.horizon,
     f,
     f2027: s.use2027 ? 0.0085 : f,
-    L0: s.limit,
+    // "Limit already used": existing OKI assets occupy the whole exemption,
+    // so the modelled (new) money pays the fee from the first złoty. That is
+    // exactly a zero limit — a state-level mapping, the engine stays unaware.
+    L0: s.limitUsed ? 0 : s.limit,
     idx: s.inflPct / 100,
     idxFrom: 3,
     c: s.monthly * 12,
@@ -85,6 +89,7 @@ export function encodeState(s) {
     if (s[key] !== DEFAULT_STATE[key]) p.set(short, String(s[key]));
   }
   if (!s.use2027) p.set('y27', '0');
+  if (s.limitUsed) p.set('lu', '1');
   if (s.todayMoney) p.set('td', '1');
   return p;
 }
@@ -98,6 +103,7 @@ export function decodeState(search) {
   }
   s.crisisEvery = Math.round(s.crisisEvery); // whole years only
   if (p.get('y27') === '0') s.use2027 = false;
+  if (p.get('lu') === '1') s.limitUsed = true;
   if (p.get('td') === '1') s.todayMoney = true;
   return s;
 }

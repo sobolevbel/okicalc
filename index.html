@@ -205,6 +205,11 @@
             <input type="number" id="num-limit" min="0" max="1000000" step="10000" value="100000" data-i18n-aria="controls.limit" aria-label="Limit zwolnienia">
           </div>
           <p class="hint" data-i18n="controls.limitHint">Aktywa do tej średniej rocznej wartości są zwolnione z opłaty OKI.</p>
+          <div class="check-row" style="margin-top:12px">
+            <input type="checkbox" id="chkLimitUsed">
+            <label for="chkLimitUsed" data-i18n="controls.limitUsed">Limit już wykorzystany przez wcześniejsze inwestycje</label>
+          </div>
+          <p class="hint" data-i18n="controls.limitUsedHint">Załóż, że na OKI leżą już aktywa o wartości całego limitu. Nowe wpłaty nie korzystają wtedy ze zwolnienia — opłata OKI jest naliczana od pierwszej złotówki, a kalkulator porównuje wyłącznie los nowych pieniędzy.</p>
         </div>
         <div class="field">
           <div class="field-head">
@@ -359,6 +364,7 @@
   <section class="card" aria-labelledby="hExplain">
     <h2 id="hExplain" data-i18n="explain.title">Skąd biorą się te liczby</h2>
     <p id="exIntro"></p>
+    <p id="exLimitUsed" hidden></p>
     <p id="exCrisis" hidden></p>
     <p id="exPayout" hidden></p>
     <div class="explain-cols">

@@ -33,12 +33,16 @@ function recompute() {
   // Rendered only when it actually diverges from pure OKI (overflowYear).
   const hyb = simulateHybrid(engineParams(state, 50));
   derived = {
-    rows, hybrid: hyb.rows, overflowYear: hyb.overflowYear,
+    rows, hybrid: hyb.rows,
+    // With the limit marked as already used the hybrid runs at L = 0, i.e.
+    // degenerates to the pure regular account — hide all its UI (a third
+    // line/verdict duplicating an existing strategy would only confuse).
+    overflowYear: state.limitUsed ? null : hyb.overflowYear,
     breakevenYear, peak: maxAdvantage(rows), payout,
   };
 
   // The heatmap only depends on the advanced settings — cache accordingly.
-  const key = [state.feePct, state.use2027, state.limit, state.inflPct, state.belkaPct].join('|');
+  const key = [state.feePct, state.use2027, state.limit, state.limitUsed, state.inflPct, state.belkaPct].join('|');
   if (key !== matrixKey) {
     matrix = computeMatrix(state);
     matrixKey = key;

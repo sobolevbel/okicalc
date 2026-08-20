@@ -33,6 +33,9 @@ export function initControls(update) {
   document.getElementById('chk2027').addEventListener('change', (ev) => {
     update({ use2027: ev.target.checked });
   });
+  document.getElementById('chkLimitUsed').addEventListener('change', (ev) => {
+    update({ limitUsed: ev.target.checked });
+  });
   document.getElementById('chkToday').addEventListener('change', (ev) => {
     update({ todayMoney: ev.target.checked });
   });
@@ -79,6 +82,10 @@ export function syncControls(state) {
     out.value = formatted;
   }
   document.getElementById('chk2027').checked = state.use2027;
+  document.getElementById('chkLimitUsed').checked = state.limitUsed;
+  // The limit value is ignored while "already used" is on — grey it out.
+  document.getElementById('in-limit').disabled = state.limitUsed;
+  document.getElementById('num-limit').disabled = state.limitUsed;
   document.getElementById('chkToday').checked = state.todayMoney;
   document.getElementById('btnRealism').setAttribute('aria-pressed', String(state.crisisEvery > 0));
   for (const btn of document.querySelectorAll('#nbpPresets button')) {
